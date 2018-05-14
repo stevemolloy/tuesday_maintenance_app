@@ -22,7 +22,6 @@
   grid-area: main;
   width: 960px;
   margin: 0 auto;
-  border: solid red 1px;
 }
 
 #container > footer {
