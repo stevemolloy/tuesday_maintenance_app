@@ -5,6 +5,27 @@ block content
     header
       h1= title
     main
-      p Welcome to #{title}
+      form
+        ul.form-style-1
+          li
+            label Full Name
+              span.required *
+            input(type="text", name="first_name", placeholder="First").field-divided
+            input(type="text", name="last_name", placeholder="Last").field-divided
+          li
+            label For the attention of:
+            select(name="fao").field-select
+              option(value="none") ------------
+              option(value="kits_sw") KITS Software
+              option(value="kits_hw") KITS Hardware
+              option(value="plc") PLC
+              option(value="el") Electricians
+              option(value="water") Water
+          li
+            label Your message
+              span.required *
+            textarea(name="Comment", id="field5").field-long.field-textarea
+          li
+            input(type="submit", value="Submit")
     footer
       p I am a footer
