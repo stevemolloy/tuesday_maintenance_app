@@ -8,7 +8,7 @@ block content
       form
         ul.form-style-1
           li
-            label Full Name
+            label Your Name
               span.required *
             input(type="text", name="first_name", placeholder="First").field-divided
             input(type="text", name="last_name", placeholder="Last").field-divided
@@ -25,7 +25,6 @@ block content
             label Your message
               span.required *
             textarea(name="Comment", id="field5").field-long.field-textarea
-          li
-            input(type="submit", value="Submit")
+      button(onclick="submit_report()") Submit
     footer
       p I am a footer

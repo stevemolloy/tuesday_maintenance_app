@@ -45,9 +45,9 @@
 }
 
 .form-style-1 {
-  margin: 10px auto;
+  /* margin: 10px auto; */
   max-width: 960px;
-  padding: 20px 12px 10px 20px;
+  /* padding: 20px 0 10px 0; */
   font: 13px;
   font-family: 'Raleway', sans-serif;
 }
@@ -64,6 +64,7 @@
   padding: 0px;
   display: block;
   font-weight: bold;
+  color: hsl(235, 25%, 30%);
 }
 
 .form-style-1 input[type=text], .form-style-1 input[type=date], .form-style-1 input[type=datetime], .form-style-1 input[type=number], .form-style-1 input[type=search], .form-style-1 input[type=time], .form-style-1 input[type=url], .form-style-1 input[type=email], textarea, select {
@@ -88,7 +89,7 @@
 }
 
 .form-style-1 .field-divided {
-  width: 50%;
+  width: 25%;
 }
 
 .form-style-1 .field-long {
@@ -96,7 +97,7 @@
 }
 
 .form-style-1 .field-select {
-  width: 100%;
+  width: 50%;
 }
 
 .form-style-1 .field-textarea {
@@ -104,10 +105,10 @@
 }
 
 .form-style-1 input[type=submit], .form-style-1 input[type=button] {
-  background: #4B99AD;
+  background: hsl(235, 25%, 30%);
   padding: 8px 15px 8px 15px;
   border: none;
-  color: #fff;
+  color: hsl(235, 25%, 90%);
 }
 
 .form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover {
