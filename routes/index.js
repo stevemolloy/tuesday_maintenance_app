@@ -6,7 +6,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'MAX-IV Fix List' });
+  res.render('index', {
+    title: 'MAX-IV Fix List'
+  });
 });
 
 router.post('/new_fault', function(req, res, next) {
@@ -16,9 +18,8 @@ router.post('/new_fault', function(req, res, next) {
 
   var comment_obj = commentCreate(fullname, commenttext, timestamp);
   faultCreate(fullname, comment_obj, "Reported", timestamp);
-  res.send(req.body);
+  res.redirect('/');
 });
-
 
 function commentCreate(commenter, comment, datetime) {
   commentdetail = {
