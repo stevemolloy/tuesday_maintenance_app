@@ -5,7 +5,7 @@ block content
     header
       h1= title
     main
-      form
+      form(action="/new_fault", method='post')#report_form
         ul.form-style-1
           li
             label Your Name
@@ -24,7 +24,8 @@ block content
           li
             label Your message
               span.required *
-            textarea(name="Comment", id="field5").field-long.field-textarea
-      button(onclick="submit_report()") Submit
+            textarea(name="comment", id="comment").field-long.field-textarea
+          li
+            button Submit
     footer
       p I am a footer
