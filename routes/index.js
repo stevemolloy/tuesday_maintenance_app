@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/* POST a new fault */
 router.post('/new_fault', function(req, res, next) {
   var fullname = req.body.first_name + " " + req.body.last_name;
   var commenttext = req.body.comment;
@@ -36,8 +37,6 @@ function commentCreate(commenter, comment, datetime) {
       return
     }
     console.log('New Comment: ' + comment);
-    // comments.push(comment)
-    // cb(null, comment)
   });
   return comment;
 }
@@ -57,8 +56,6 @@ function faultCreate(reporter, comment, status, datetime) {
       return
     }
     console.log('New Fault: ' + fault);
-    // faults.push(fault)
-    // cb(null, fault)
   });
   return fault;
 }
