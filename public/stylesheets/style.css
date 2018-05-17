@@ -30,18 +30,18 @@
   font-size: 72px;
   letter-spacing: 0.05em;
   word-spacing: 0.2em;
-  color: hsl(235, 25%, 90%);
+  color: hsl(175, 25%, 90%);
   padding: 40px 0 40px 96px;
-  background-color: hsl(235, 25%, 30%);
+  background-color: hsl(175, 25%, 30%);
 }
 
 #container>footer>p {
   font-family: 'Raleway', sans-serif;
   font-size: 24px;
   letter-spacing: 0.0em;
-  color: hsl(235, 25%, 90%);
+  color: hsl(175, 25%, 90%);
   padding: 10px 0 10px 96px;
-  background-color: hsl(235, 25%, 30%);
+  background-color: hsl(175, 25%, 30%);
 }
 
 .form-style-1 {
@@ -64,7 +64,7 @@
   padding: 0px;
   display: block;
   font-weight: bold;
-  color: hsl(235, 25%, 30%);
+  color: hsl(175, 25%, 20%);
 }
 
 .form-style-1 input[type=text], .form-style-1 input[type=date], .form-style-1 input[type=datetime], .form-style-1 input[type=number], .form-style-1 input[type=search], .form-style-1 input[type=time], .form-style-1 input[type=url], .form-style-1 input[type=email], textarea, select {
