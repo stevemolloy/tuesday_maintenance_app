@@ -11,6 +11,26 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/list_all', function(req, res, next) {
+  FaultComment.find(function(err, comments) {
+    if (err) return console.error(err);
+    var data = [];
+    var commenters = [];
+    var commenttexts = [];
+    for (var i=0; i<comments.length; i++) {
+      data.push(
+        [comments[i].commenter, comments[i].comment]
+      );
+      commenters.push(comments[i].commenter);
+      commenttexts.push(comments[i].comment);
+    }
+    res.render('list_all', {
+      title: 'MAX-IV Fix List',
+      data: data
+    });
+  });
+});
+
 /* POST a new fault */
 router.post('/new_fault', function(req, res, next) {
   var fullname = req.body.first_name + " " + req.body.last_name;
@@ -20,6 +40,7 @@ router.post('/new_fault', function(req, res, next) {
 
   var comment_obj = commentCreate(fullname, commenttext, timestamp);
   faultCreate(fullname, comment_obj, status, timestamp);
+
   res.redirect('/');
 });
 

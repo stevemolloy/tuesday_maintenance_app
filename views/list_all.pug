@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div#container
+    header
+      h1= title
+    main
+      table
+        each datum in data
+          tr
+            each cell in datum
+              td= cell
+    footer
+      p I am a footer
