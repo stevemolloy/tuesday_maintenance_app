@@ -15,10 +15,11 @@ router.get('/', function(req, res, next) {
 router.post('/new_fault', function(req, res, next) {
   var fullname = req.body.first_name + " " + req.body.last_name;
   var commenttext = req.body.comment;
+  var status = req.body.status;
   var timestamp = Date.now();
 
   var comment_obj = commentCreate(fullname, commenttext, timestamp);
-  faultCreate(fullname, comment_obj, "Reported", timestamp);
+  faultCreate(fullname, comment_obj, status, timestamp);
   res.redirect('/');
 });
 

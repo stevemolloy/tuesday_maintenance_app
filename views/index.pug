@@ -22,7 +22,14 @@ block content
               option(value="el") Electricians
               option(value="water") Water
           li
-            label Your message
+            label Status:
+            select(name="status").field-select
+              option(value="reported") Reported
+              option(value="assigned") Assigned
+              option(value="fixed") Fixed
+              option(value="wont_fix") Won't fix
+          li
+            label Report
               span.required *
             textarea(name="comment", id="comment").field-long.field-textarea
           li
