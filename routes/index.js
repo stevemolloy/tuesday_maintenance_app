@@ -1,5 +1,6 @@
-var FaultComment = require('../models/comment');
-var FaultReport = require('../models/faultreport');
+// var FaultComment = require('../models/comment');
+var FaultReport = require('../models/faultreport').FaultReport;
+var FaultComment = require('../models/faultreport').FaultComment;
 
 var express = require('express');
 var router = express.Router();
@@ -17,7 +18,7 @@ router.get('/list_all', function(req, res, next) {
     var data = [];
     for (var i = 0; i < reports.length; i++) {
       console.log(reports[i]);
-      data.push([reports[i].datetime, reports[i].reporter, reports[i].comment[0].comment]);
+      data.push([reports[i].datetime, reports[i].reporter, reports[i].comment[0].getComment()]);
     }
     res.render('list_all', {
       title: 'MAX-IV Fix List',
