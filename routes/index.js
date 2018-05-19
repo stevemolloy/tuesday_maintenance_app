@@ -13,18 +13,24 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/list_all', function(req, res, next) {
-  FaultReport.find(function(err, reports) {
-    if (err) return console.error(err);
-    var data = [];
-    for (var i = 0; i < reports.length; i++) {
-      console.log(reports[i]);
-      data.push([reports[i].datetime, reports[i].reporter, reports[i].comment[0].getComment()]);
-    }
-    res.render('list_all', {
-      title: 'MAX-IV Fix List',
-      data: data
+  FaultReport
+    .find({})
+    .sort({ datetime: -1 })
+    .exec(function(err, reports) {
+      if (err) return console.error(err);
+      var data = [];
+      for (var i = 0; i < reports.length; i++) {
+        data.push([
+          reports[i].datetime,
+          reports[i].reporter,
+          reports[i].comment[0].getComment()
+        ]);
+      }
+      res.render('list_all', {
+        title: 'MAX-IV Fix List',
+        data: data
+      });
     });
-  });
 });
 
 /* POST a new fault */

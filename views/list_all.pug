@@ -7,11 +7,13 @@ block content
     main
       table#faulttable
         tr(onclick='function() {console.log("clicked!")}')
+          th 
           th Date and time
           th Reporter
           th Comment
-        each datum in data
+        each datum, index in data
           tr
+            td= index
             each cell in datum
               td= cell
     footer
