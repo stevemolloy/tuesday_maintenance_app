@@ -11,4 +11,20 @@ var FaultReportSchema = new Schema(
   }
 );
 
+FaultReportSchema.methods.getReporter = function () {
+  return this.reporter;
+}
+
+FaultReportSchema.methods.getCommentId = function () {
+  return this.comment;
+}
+
+FaultReportSchema.methods.getStatus = function () {
+  return this.status;
+}
+
+FaultReportSchema.methods.getDateTime = function () {
+  return this.datetime;
+}
+
 module.exports = mongoose.model('FaultReport', FaultReportSchema);

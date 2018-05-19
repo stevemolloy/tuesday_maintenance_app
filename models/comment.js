@@ -10,4 +10,16 @@ var CommentSchema = new Schema(
   }
 );
 
+CommentSchema.methods.getCommenter = function() {
+  return this.commenter;
+}
+
+CommentSchema.methods.getComment = function() {
+  return this.comment;
+}
+
+CommentSchema.methods.getDateTime = function() {
+  return this.datetime;
+}
+
 module.exports = mongoose.model('Comment', CommentSchema);

@@ -12,17 +12,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/list_all', function(req, res, next) {
-  FaultComment.find(function(err, comments) {
+  FaultReport.find(function(err, reports) {
     if (err) return console.error(err);
     var data = [];
-    var commenters = [];
-    var commenttexts = [];
-    for (var i=0; i<comments.length; i++) {
-      data.push(
-        [comments[i].commenter, comments[i].comment]
-      );
-      commenters.push(comments[i].commenter);
-      commenttexts.push(comments[i].comment);
+    for (var i = 0; i < reports.length; i++) {
+      console.log(reports[i]);
+      data.push([reports[i].datetime, reports[i].reporter, reports[i].comment[0].comment]);
     }
     res.render('list_all', {
       title: 'MAX-IV Fix List',
