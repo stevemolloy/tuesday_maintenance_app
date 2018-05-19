@@ -13,6 +13,9 @@
 
 #container>header {
   grid-area: head;
+  padding: 40px 0 40px 96px;
+  background-color: hsl(175, 25%, 30%);
+  font-family: 'Raleway', sans-serif;
 }
 
 #container>main {
@@ -26,13 +29,19 @@
 }
 
 #container>header>h1 {
-  font-family: 'Raleway', sans-serif;
+  display: inline-block;
   font-size: 72px;
   letter-spacing: 0.05em;
   word-spacing: 0.2em;
   color: hsl(175, 25%, 90%);
-  padding: 40px 0 40px 96px;
-  background-color: hsl(175, 25%, 30%);
+}
+
+#container>main button {
+  height: 4.5ex;
+  margin: 0 0 10px 40%;
+  width: 20%;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 #container>footer>p {

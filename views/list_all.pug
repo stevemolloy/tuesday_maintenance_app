@@ -5,6 +5,8 @@ block content
     header
       h1= title
     main
+      form(action="new_report")
+        button Report a fault
       table#faulttable
         tr(onclick='function() {console.log("clicked!")}')
           th 
