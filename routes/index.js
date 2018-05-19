@@ -6,13 +6,13 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {
+router.get('/new_report', function(req, res, next) {
+  res.render('new_report', {
     title: 'MAX-IV Fix List'
   });
 });
 
-router.get('/list_all', function(req, res, next) {
+router.get('/', function(req, res, next) {
   FaultReport
     .find({})
     .sort({ datetime: -1 })
