@@ -5,7 +5,11 @@ block content
     header
       h1= title
     main
-      table
+      table#faulttable
+        tr
+          th Date and time
+          th Reporter
+          th Comment
         each datum in data
           tr
             each cell in datum
