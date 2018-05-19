@@ -3,7 +3,8 @@ extends layout
 block content
   div#container
     header
-      h1= title
+      a(href="/")
+        h1= title
     main
       form(action="/new_fault", method='post')#report_form
         ul.form-style-1
