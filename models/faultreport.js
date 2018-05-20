@@ -31,6 +31,10 @@ var FaultReportSchema = new Schema(
   }
 );
 
+FaultReportSchema.methods.getId = function () {
+  return this._id;
+}
+
 FaultReportSchema.methods.getReporter = function () {
   return this.reporter;
 }
