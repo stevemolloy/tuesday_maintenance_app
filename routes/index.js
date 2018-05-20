@@ -15,15 +15,21 @@ router.get('/new_report', function(req, res, next) {
 router.get('/', function(req, res, next) {
   FaultReport
     .find({})
-    .sort({ datetime: -1 })
+    .sort({
+      datetime: -1
+    })
     .exec(function(err, reports) {
       if (err) return console.error(err);
       var data = [];
       for (var i = 0; i < reports.length; i++) {
+        var commentstr = reports[i].comment[0].getComment();
+        if (commentstr.length > 55) {
+          commentstr = commentstr.substring(0, 55) + '...';
+        }
         data.push([
           reports[i].datetime,
           reports[i].reporter,
-          reports[i].comment[0].getComment()
+          commentstr
         ]);
       }
       res.render('list_all', {
