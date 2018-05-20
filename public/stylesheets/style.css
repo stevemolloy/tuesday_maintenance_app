@@ -22,6 +22,7 @@
   grid-area: main;
   width: 960px;
   margin: 0 auto;
+  font-family: 'Raleway', sans-serif;
 }
 
 #container>footer {
@@ -58,7 +59,6 @@
   max-width: 960px;
   /* padding: 20px 0 10px 0; */
   font: 13px;
-  font-family: 'Raleway', sans-serif;
 }
 
 .form-style-1 li {
