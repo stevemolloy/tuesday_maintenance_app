@@ -6,17 +6,19 @@ block content
       a(href="/")
         h1= title
     main
-      form(action="new_report")
-        button Report a fault
+      form(action=id_newcomment_path)
+        button New comment
+        p !{id_newcomment_path}
       div.card
         div.cardcontainer
           h2
             b= report.datetime
-          hr
           p Reported by: 
             b= report.reporter
-          hr
-          h3 Comment #1:
-          p= report.comment[0].comment
+          each comment, index in report.comment
+            div.comment
+              h3 Comment #{index + 1}:
+              h4 #{comment.datetime}
+              p= comment.comment
     footer
       p I am a footer

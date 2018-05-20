@@ -23,4 +23,8 @@ router.get('/get/:faultId', function(req, res, next) {
     })
 });
 
+router.get('/get/:faultId/new_comment', function(req, res, next) {
+  res.send('Lisa ' + req.params.faultId);
+});
+
 module.exports = router;
