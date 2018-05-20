@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   res.redirect('..');
 });
 
-router.get('/:faultId', function(req, res, next) {
+router.get('/get/:faultId', function(req, res, next) {
   FaultReport
     .findOne({
       '_id': req.params.faultId
