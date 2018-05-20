@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  div#container
+    header
+      a(href="/")
+        h1= title
+    main
+      form(action="new_report")
+        button Report a fault
+      div.card
+        div.cardcontainer
+          h2
+            b= report.datetime
+          hr
+          p Reported by: 
+            b= report.reporter
+          hr
+          h3 Comment #1:
+          p= report.comment[0].comment
+    footer
+      p I am a footer

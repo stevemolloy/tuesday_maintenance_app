@@ -16,7 +16,10 @@ router.get('/:faultId', function(req, res, next) {
     })
     .exec(function(err, report) {
       if (err) return console.error(err);
-      res.send(report);
+      res.render('list_one', {
+        title: 'MAX-IV Fix List',
+        report: report
+      });
     })
 });
 

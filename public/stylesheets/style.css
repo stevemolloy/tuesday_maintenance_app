@@ -132,23 +132,43 @@
 }
 
 #faulttable {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 #faulttable td, #faulttable th {
-    border: 1px solid #ddd;
-    padding: 8px;
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
-#faulttable tr:nth-child(even){background-color: #f2f2f2;}
+#faulttable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
-#faulttable tr:hover {background-color: #ddd;}
+#faulttable tr:hover {
+  background-color: #ddd;
+}
 
 #faulttable th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: hsl(175, 25%, 20%);
-    color: white;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: hsl(175, 25%, 20%);
+  color: white;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 80%;
+  margin:0 10% 0 10%;
+}
+
+.cardcontainer {
+  padding: 2px 16px;
+}
+
+.cardcontainer * {
+  margin: 8px;
+}
