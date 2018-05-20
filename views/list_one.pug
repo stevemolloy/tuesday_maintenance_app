@@ -6,8 +6,8 @@ block content
       a(href="/")
         h1= title
     main
-      form(action=id_newcomment_path)
-        button New comment
+      form(action="/new_report")
+        button Report a fault
       div.card
         div.cardcontainer
           h2
@@ -19,5 +19,10 @@ block content
               h3 Comment #{index + 1}:
               h4 #{comment.datetime}
               p= comment.comment
+          div.comment
+            h3 Add a new comment
+            div.newcomment
+              form
+                textarea(rows=6)
     footer
       p I am a footer

@@ -178,3 +178,13 @@
   border-width: 2px;
   border-style: solid;
 }
+
+.newcomment {
+  margin-right: 20px;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 10px;
+}
