@@ -159,10 +159,10 @@
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   transition: 0.3s;
   width: 80%;
-  margin:0 10% 0 10%;
+  margin:0 auto;
 }
 
 .cardcontainer {
@@ -171,4 +171,10 @@
 
 .cardcontainer * {
   margin: 8px;
+}
+
+.comment {
+  border-color: #bbb;
+  border-width: 2px;
+  border-style: solid;
 }
