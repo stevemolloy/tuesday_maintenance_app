@@ -1,4 +1,3 @@
-// var FaultComment = require('../models/comment');
 var FaultReport = require('../models/faultreport').FaultReport;
 var FaultComment = require('../models/faultreport').FaultComment;
 
