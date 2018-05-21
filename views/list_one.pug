@@ -22,8 +22,12 @@ block content
           div.comment
             h3 Add a new comment
             div.newcomment
-              form
-                textarea(rows=6)
+              form(action=id_newcomment_path, method="POST")
+                label Your Name
+                  span.required *
+                input(type="text", name="first_name", placeholder="First")
+                input(type="text", name="last_name", placeholder="Last")
+                textarea(name="new_comment_text", rows=6)
                 button Submit
     footer
       p I am a footer
