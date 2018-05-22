@@ -9,13 +9,14 @@ block content
       form(action="new_report")
         button Report a fault
       table#faulttable
-        tr(onclick='function() {console.log("clicked!")}')
+        tr
           th 
           th Date and time
           th Reporter
           th Comment
         each datum, index in data
-          tr
+          - var d = "location.href='/api/get/" + ids[index] + "';"
+          tr(onclick=d)
             td= index+1
             each cell in datum
               td= cell

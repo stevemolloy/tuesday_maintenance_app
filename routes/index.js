@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
     .exec(function(err, reports) {
       if (err) return console.error(err);
       var data = [];
+      var ids = [];
       for (var i = 0; i < reports.length; i++) {
         var commentstr = reports[i].comment[0].getComment();
         if (commentstr.length > 55) {
@@ -30,10 +31,12 @@ router.get('/', function(req, res, next) {
           reports[i].reporter,
           commentstr
         ]);
+        ids.push(reports[i]._id);
       }
       res.render('list_all', {
         title: 'MAX-IV Fix List',
-        data: data
+        data: data,
+        ids: ids
       });
     });
 });
