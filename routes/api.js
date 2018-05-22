@@ -37,10 +37,10 @@ router.post('/get/:faultId/new_comment', function(req, res, next) {
     .exec(function(err, report) {
       if (err) return console.error(err);
       report.comment.push(comment_object);
-      report.save();
+      report.save(function (err) {
+        res.redirect('/api/get/' + req.params.faultId);
+      });
     });
-
-  res.redirect('/api/get/' + req.params.faultId);
 });
 
 function commentCreate(commenter, comment, datetime) {
