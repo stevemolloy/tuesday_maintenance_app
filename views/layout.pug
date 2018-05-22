@@ -5,8 +5,15 @@ doctype html
 html
   head
     title= title
+    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.0.13/css/all.css", integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp", crossorigin="anonymous")
     link(href="https://fonts.googleapis.com/css?family=Raleway", rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
-  script(src="javascripts/postform.js")
+    div#container
+      header
+        a(href="/")
+          h1= title
+      block content
+      footer
+        p
+          i(onclick="location.href='https://gitlab.maxiv.lu.se/stepmo/fixlist_app'").fab.fa-gitlab

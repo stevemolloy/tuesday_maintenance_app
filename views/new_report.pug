@@ -1,10 +1,6 @@
 extends layout
 
 block content
-  div#container
-    header
-      a(href="/")
-        h1= title
     main
       form(action="/new_fault", method='post')#report_form
         ul.form-style-1
@@ -35,5 +31,3 @@ block content
             textarea(name="comment", id="comment").field-long.field-textarea
           li
             button Submit
-    footer
-      p I am a footer

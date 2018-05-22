@@ -47,11 +47,15 @@
 
 #container>footer>p {
   font-family: 'Raleway', sans-serif;
-  font-size: 24px;
+  font-size: 14px;
   letter-spacing: 0.0em;
   color: hsl(175, 25%, 90%);
   padding: 10px 0 10px 96px;
   background-color: hsl(175, 25%, 30%);
+}
+
+#container>footer>p>i {
+  cursor: pointer;
 }
 
 .form-style-1 {

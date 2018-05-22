@@ -1,10 +1,6 @@
 extends layout
 
 block content
-  div#container
-    header
-      a(href="/")
-        h1= title
     main
       form(action="new_report")
         button Report a fault
@@ -20,5 +16,3 @@ block content
             td= index+1
             each cell in datum
               td= cell
-    footer
-      p I am a footer
