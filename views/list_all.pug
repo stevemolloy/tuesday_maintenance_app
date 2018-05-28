@@ -2,13 +2,14 @@ extends layout
 
 block content
     main
-      form(action="new_report")
-        button Report a fault
+      form(action="/new_task")
+        button Add a new maintenance task
       table#faulttable
         tr
           th 
           th Date and time
           th Reporter
+          th Affected location(s)
           th Comment
         each datum, index in data
           - var d = "location.href='/api/get/" + ids[index] + "';"

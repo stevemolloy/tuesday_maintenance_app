@@ -2,26 +2,15 @@ extends layout
 
 block content
     main
-      form(action="/new_report")
-        button Report a fault
+      form(action="/new_task")
+        button Add a new maintenance task
       div.card
         div.cardcontainer
           h2
             b= report.datetime
           p Reported by: 
             b= report.reporter
-          each comment, index in report.comment
-            div.comment
-              h3 Comment #{index + 1}:
-              h4 #{comment.datetime}
-              p= comment.comment
-          div.comment
-            h3 Add a new comment
-            div.newcomment
-              form(action=id_newcomment_path, method="POST")
-                label Your Name
-                  span.required *
-                input(type="text", name="first_name", placeholder="First")
-                input(type="text", name="last_name", placeholder="Last")
-                textarea(name="new_comment_text", rows=6)
-                button Submit
+          p Affected location(s):
+            b= report.where
+          p Comment:
+            b= report.task

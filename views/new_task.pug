@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    main
+      form(action="/new_maintenance_task", method='post')#report_form
+        ul.form-style-1
+          li
+            label Your Name
+              span.required *
+            input(type="text", name="first_name", placeholder="First").field-divided
+            input(type="text", name="last_name", placeholder="Last").field-divided
+          li
+            label Location affected:
+            input(type="checkbox", name="location", value="R11")
+            | R11
+            br
+            input(type="checkbox", name="location", value="R12")
+            | R12
+            br
+            input(type="checkbox", name="location", value="R31")
+            | R31
+            br
+            input(type="checkbox", name="location", value="R3235")
+            | R32-35
+            br
+            input(type="checkbox", name="location", value="linac")
+            | Linac
+            br
+            input(type="checkbox", name="location", value="other")
+            | Other
+          li
+            label Report
+              span.required *
+            textarea(name="comment", id="comment").field-long.field-textarea
+          li
+            button Submit
