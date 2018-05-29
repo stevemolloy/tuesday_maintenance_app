@@ -8,7 +8,8 @@ var MaintenanceTaskSchema = new Schema(
     reporter: {type: String, required: true, max: 128},
     fixer: {type: String, max: 128},
     where: {type:String, max: 128},
-    task: {type: String, max: 8192}
+    task: {type: String, max: 8192},
+    week_number: {type: Number}
   }
 );
 

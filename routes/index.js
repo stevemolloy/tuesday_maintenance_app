@@ -1,4 +1,5 @@
 var MaintenanceTask = require('../models/maintenanceTask').MaintenanceTask;
+var currentWeekNumber = require('current-week-number');
 
 var express = require('express');
 var router = express.Router();
@@ -25,7 +26,7 @@ router.get('/', function(req, res, next) {
           commentstr = commentstr.substring(0, 55) + '...';
         }
         data.push([
-          reports[i].datetime,
+          reports[i].week_number,
           reports[i].reporter,
           reports[i].where,
           reports[i].fixer,
@@ -48,6 +49,13 @@ router.post('/new_maintenance_task', function(req, res, next) {
   var fixer = req.body.fixer;
   var where = '';
   var task = req.body.comment;
+  var week_number = currentWeekNumber();
+  var d = new Date().getDay();
+  if (d>=4) {
+    week_number += 2;
+  } else {
+    week_number += 1;
+  }
 
   if (Array.isArray(req.body.location)) {
     for (loc of req.body.location) {
@@ -65,7 +73,8 @@ router.post('/new_maintenance_task', function(req, res, next) {
     reporter: fullname,
     fixer: fixer,
     where: where,
-    task: task
+    task: task,
+    week_number: week_number
   });
   task_object.save(function(err) {
     if (err) {
