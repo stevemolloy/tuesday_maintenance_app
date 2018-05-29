@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get('/new_task', function(req, res, next) {
   res.render('new_task', {
-    title: 'MAX-IV Maintenace Tasks'
+    title: 'MAX-IV Maintenance Tasks'
   });
 });
 
