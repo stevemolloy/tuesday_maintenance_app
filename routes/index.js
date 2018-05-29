@@ -14,33 +14,86 @@ router.get('/', function(req, res, next) {
   MaintenanceTask
     .find({})
     .sort({
-      datetime: -1
+      datetime: 1
     })
     .exec(function(err, reports) {
       if (err) return console.error(err);
-      var data = [];
-      var ids = [];
-      for (var i = 0; i < reports.length; i++) {
-        var commentstr = reports[i].task;
-        if (commentstr.length > 55) {
-          commentstr = commentstr.substring(0, 55) + '...';
+      var linac_data = [], linac_ids = [];
+      var r3_data = [], r3_ids = [];
+      var r1_data = [], r1_ids = [];
+      for (var i = reports.length - 1; i >= 0; i--) {
+        if (taskShutsLinac(reports[i])) {
+          var report = reports.splice(i, 1)[0];
+          var commentstr = report.task;
+          if (commentstr.length > 55) {
+            commentstr = commentstr.substring(0, 55) + '...';
+          }
+          linac_data.push([
+            report.week_number,
+            report.reporter,
+            report.where,
+            report.fixer,
+            commentstr
+          ]);
+          linac_ids.push(report._id);
+        } else if (taskShutsR1(reports[i])) {
+          var report = reports.splice(i, 1)[0];
+          var commentstr = report.task;
+          if (commentstr.length > 55) {
+            commentstr = commentstr.substring(0, 55) + '...';
+          }
+          r1_data.push([
+            report.week_number,
+            report.reporter,
+            report.where,
+            report.fixer,
+            commentstr
+          ]);
+          r1_ids.push(report._id);
+        } else if (taskShutsR3(reports[i])) {
+          var report = reports.splice(i, 1)[0];
+          var commentstr = report.task;
+          if (commentstr.length > 55) {
+            commentstr = commentstr.substring(0, 55) + '...';
+          }
+          r3_data.push([
+            report.week_number,
+            report.reporter,
+            report.where,
+            report.fixer,
+            commentstr
+          ]);
+          r3_ids.push(report._id);
         }
-        data.push([
-          reports[i].week_number,
-          reports[i].reporter,
-          reports[i].where,
-          reports[i].fixer,
-          commentstr
-        ]);
-        ids.push(reports[i]._id);
       }
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
-        data: data,
-        ids: ids
+        linac_data: linac_data,
+        linac_ids: linac_ids,
+        r3_data: r3_data,
+        r3_ids: r3_ids,
+        r1_data: r1_data,
+        r1_ids: r1_ids,
       });
     });
 });
+
+function taskShutsLinac(report) {
+  return report.where.includes('linac') ||
+    report.where.includes('R11') ||
+    report.where.includes('R31');
+}
+
+function taskShutsR1(report) {
+  return report.where.includes('R11') || report.where.includes('R12');
+}
+
+function taskShutsR3(report) {
+  return report.where.includes('R32') ||
+    report.where.includes('R33') ||
+    report.where.includes('R34') ||
+    report.where.includes('R35');
+}
 
 /* POST a new maintenance task */
 router.post('/new_maintenance_task', function(req, res, next) {
@@ -51,7 +104,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
   var task = req.body.comment;
   var week_number = currentWeekNumber();
   var d = new Date().getDay();
-  if (d>=4) {
+  if (d >= 4) {
     week_number += 2;
   } else {
     week_number += 1;

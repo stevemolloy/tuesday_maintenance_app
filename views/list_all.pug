@@ -1,9 +1,11 @@
 extends layout
 
 block content
-    main
-      form(action="/new_task")
-        button Add a new maintenance task
+  main
+    form(action="/new_task")
+      button Add a new maintenance task
+    div.report_table
+      h1 Interventions that require access to Linac, R11, and/or R31
       table#faulttable
         tr
           th 
@@ -12,9 +14,42 @@ block content
           th Affected location(s)
           th Responsible
           th Comment
-        each datum, index in data
-          - var d = "location.href='/api/get/" + ids[index] + "';"
-          tr(onclick=d)
-            td= index+1
-            each cell in datum
-              td= cell
+          each datum, index in linac_data
+            - var d = "location.href='/api/get/" + linac_ids[index] + "';"
+            tr(onclick=d)
+              td= index+1
+              each cell in datum
+                td= cell
+    div.report_table
+      h1 Interventions that require access to R1
+      table#faulttable
+        tr
+          th 
+          th Maintenance Week
+          th Reporter
+          th Affected location(s)
+          th Responsible
+          th Comment
+          each datum, index in r1_data
+            - var d = "location.href='/api/get/" + r1_ids[index] + "';"
+            tr(onclick=d)
+              td= index+1
+              each cell in datum
+                td= cell
+    
+    div.report_table
+      h1 Interventions that require access to R3
+      table#faulttable
+        tr
+          th 
+          th Maintenance Week
+          th Reporter
+          th Affected location(s)
+          th Responsible
+          th Comment
+          each datum, index in r3_data
+            - var d = "location.href='/api/get/" + r3_ids[index] + "';"
+            tr(onclick=d)
+              td= index+1
+              each cell in datum
+                td= cell
