@@ -28,6 +28,7 @@ router.get('/', function(req, res, next) {
           reports[i].datetime,
           reports[i].reporter,
           reports[i].where,
+          reports[i].fixer,
           commentstr
         ]);
         ids.push(reports[i]._id);
@@ -44,7 +45,7 @@ router.get('/', function(req, res, next) {
 router.post('/new_maintenance_task', function(req, res, next) {
   var timestamp = Date.now();
   var fullname = req.body.first_name + " " + req.body.last_name;
-  var fixer = '';
+  var fixer = req.body.fixer;
   var where = '';
   var task = req.body.comment;
 
