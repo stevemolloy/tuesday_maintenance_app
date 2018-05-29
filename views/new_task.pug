@@ -13,6 +13,12 @@ block content
           label Responsible
           input(type="text", name="fixer", placeholder="Person/team").field-long
         li
+          label Proposed week number for this task:
+          select(name="proposedweeknumber").field-select
+            option(value=current_weeknumbe, selected)= current_weeknumber
+            each val in [1, 2, 3, 4, 5, 6, 7, 8, 9]
+              option(value=current_weeknumbe+val)= current_weeknumber+val
+        li
           label Location affected:
           input(type="checkbox", name="location", value="R11")
           | R11

@@ -6,7 +6,8 @@ var router = express.Router();
 
 router.get('/new_task', function(req, res, next) {
   res.render('new_task', {
-    title: 'MAX-IV Maintenance Tasks'
+    title: 'MAX-IV Maintenance Tasks',
+    current_weeknumber: currentWeekNumber()
   });
 });
 
