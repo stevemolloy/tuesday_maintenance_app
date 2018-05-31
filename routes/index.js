@@ -19,9 +19,12 @@ router.get('/', function(req, res, next) {
     })
     .exec(function(err, reports) {
       if (err) return console.error(err);
-      var linac_data = [], linac_ids = [];
-      var r3_data = [], r3_ids = [];
-      var r1_data = [], r1_ids = [];
+      var linac_data = [],
+        linac_ids = [];
+      var r3_data = [],
+        r3_ids = [];
+      var r1_data = [],
+        r1_ids = [];
       for (var i = reports.length - 1; i >= 0; i--) {
         if (taskShutsLinac(reports[i])) {
           var report = reports.splice(i, 1)[0];
@@ -136,6 +139,33 @@ router.post('/new_maintenance_task', function(req, res, next) {
     }
     res.redirect('/');
   });
+});
+
+router.post('/edit_maintenance_task', function(req, res, next) {
+  var timestamp = Date.now();
+  var fullname = req.body.first_name + " " + req.body.last_name;
+  var fixer = req.body.fixer;
+  var where = req.body.location;
+  var task = req.body.comment;
+  var week_number = req.body.proposedweeknumber;
+
+  var new_data = {
+    datetime: timestamp,
+    reporter: fullname,
+    fixer: fixer,
+    where: where,
+    task: task,
+    week_number: week_number
+  };
+
+  MaintenanceTask.findByIdAndUpdate(
+    req.body.task_id,
+    new_data,
+    function(err, result) {
+      if (err) console.console.error(err);
+      res.redirect('/api/get/' + req.body.task_id);
+    }
+  );
 });
 
 module.exports = router;

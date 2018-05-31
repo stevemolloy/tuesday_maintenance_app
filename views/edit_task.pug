@@ -9,6 +9,7 @@ block content
             span.required *
           input(type="text", name="first_name", value=report.reporter.split(' ')[0]).field-divided
           input(type="text", name="last_name", value=report.reporter.split(' ')[1]).field-divided
+          input(type="hidden", name="task_id", value=report._id)
         li
           label Responsible
           input(type="text", name="fixer", value=report.fixer).field-long
