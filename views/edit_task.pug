@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  main
+    form(action="/edit_maintenance_task", method='post')#report_form
+      ul.form-style-1
+        li
+          label Your Name
+            span.required *
+          input(type="text", name="first_name", value=report.reporter.split(' ')[0]).field-divided
+          input(type="text", name="last_name", value=report.reporter.split(' ')[1]).field-divided
+        li
+          label Responsible
+          input(type="text", name="fixer", value=report.fixer).field-long
+        li
+          label Proposed week number for this task:
+          select(name="proposedweeknumber").field-select
+            each val in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+              if current_weeknumber+val === report.week_number
+                option(value=current_weeknumber+val, selected)= current_weeknumber+val
+              else
+                option(value=current_weeknumber+val)= current_weeknumber+val
+        li
+          label Location affected:
+          if report.where.includes('R11')
+            input(type="checkbox", name="location", value="R11", checked)
+          else
+            input(type="checkbox", name="location", value="R11")
+          | R11
+          br
+          if report.where.includes('R12')
+            input(type="checkbox", name="location", value="R12", checked)
+          else
+            input(type="checkbox", name="location", value="R12")
+          | R12
+          br
+          if report.where.includes('R31')
+            input(type="checkbox", name="location", value="R31", checked)
+          else
+            input(type="checkbox", name="location", value="R31")
+          | R31
+          br
+          if report.where.includes('R3235')
+            input(type="checkbox", name="location", value="R3235", checked)
+          else
+            input(type="checkbox", name="location", value="R3235")
+          | R32-35
+          br
+          if report.where.includes('linac')
+            input(type="checkbox", name="location", value="linac", checked)
+          else
+            input(type="checkbox", name="location", value="linac")
+          | Linac
+          br
+          if report.where.includes('other')
+            input(type="checkbox", name="location", value="other", checked)
+          else
+            input(type="checkbox", name="location", value="other")
+          | Other
+        li
+          label Report
+            span.required *
+          textarea(name="comment", id="comment").field-long.field-textarea= report.task
+        li
+          button Save

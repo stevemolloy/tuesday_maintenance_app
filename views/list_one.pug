@@ -2,8 +2,8 @@ extends layout
 
 block content
     main
-      form(action="/new_task")
-        button Add a new maintenance task
+      form(action="/api/edit/"+report._id)
+        button Edit
       div.card
         div.cardcontainer
           h2 Scheduled for week number:
