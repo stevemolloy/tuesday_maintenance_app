@@ -5,9 +5,16 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/new_task', function(req, res, next) {
+  var week_number = currentWeekNumber();
+  var d = new Date().getDay();
+  if (d >= 4) {
+    week_number += 2;
+  } else {
+    week_number += 1;
+  }
   res.render('new_task', {
     title: 'MAX-IV Maintenance Tasks',
-    current_weeknumber: currentWeekNumber()
+    current_weeknumber: week_number
   });
 });
 
@@ -106,13 +113,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
   var fixer = req.body.fixer;
   var where = '';
   var task = req.body.comment;
-  var week_number = currentWeekNumber();
-  var d = new Date().getDay();
-  if (d >= 4) {
-    week_number += 2;
-  } else {
-    week_number += 1;
-  }
+  var week_number = req.body.proposedweeknumber;
 
   if (Array.isArray(req.body.location)) {
     for (loc of req.body.location) {
