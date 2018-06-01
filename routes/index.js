@@ -19,10 +19,14 @@ router.get('/new_task', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
+  res.redirect('/summary');
+})
+
+router.get('/summary', function(req, res, next) {
   MaintenanceTask
     .find({})
     .sort({
-      datetime: 1
+      week_number: -1
     })
     .exec(function(err, reports) {
       if (err) return console.error(err);
