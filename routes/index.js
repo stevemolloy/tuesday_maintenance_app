@@ -19,12 +19,20 @@ router.get('/new_task', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.redirect('/summary');
+  res.redirect('/summary/all/all');
 })
 
-router.get('/summary', function(req, res, next) {
+router.get('/summary/:val', function(req, res, next) {
+  res.redirect('/summary/week_number/' + req.params.val)
+})
+
+router.get('/summary/:key/:value', function(req, res, next) {
+  var search_term = {};
+  if (req.params.key !== 'all' | req.params.value !== 'all') {
+    search_term[req.params.key] = req.params.value;
+  }
   MaintenanceTask
-    .find({})
+    .find(search_term)
     .sort({
       week_number: -1
     })
