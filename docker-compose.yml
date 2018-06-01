@@ -1,0 +1,18 @@
+version: "2"
+services:
+  node:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=9000
+      - DBURL=mongodb://fixit_list_user:fixit_list_password@ds217970.mlab.com:17970/fixit_list
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "9000"
+    command: "npm start"
+    ports:
+      - "9000:9000"
