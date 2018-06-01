@@ -5,6 +5,8 @@ services:
     user: "node"
     working_dir: /home/node/app
     restart: always
+    depends_on:
+      - "mongo"
     environment:
       - NODE_ENV=production
       - PORT=9000
