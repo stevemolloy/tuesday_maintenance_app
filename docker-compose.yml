@@ -1,0 +1,34 @@
+version: "2"
+services:
+  node:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=9000
+      - DBURL=mongodb://root:example@mongo:27017
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "9000"
+    command: "npm start"
+    ports:
+      - "9000:9000"
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
