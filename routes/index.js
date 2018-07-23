@@ -20,11 +20,11 @@ router.get('/new_task', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
   res.redirect('/summary/all/all');
-})
+});
 
 router.get('/summary/:val', function(req, res, next) {
-  res.redirect('/summary/week_number/' + req.params.val)
-})
+  res.redirect('/summary/week_number/' + req.params.val);
+});
 
 router.get('/summary/:key/:value', function(req, res, next) {
   var search_term = {};
@@ -45,9 +45,10 @@ router.get('/summary/:key/:value', function(req, res, next) {
       var r1_data = [],
         r1_ids = [];
       for (var i = reports.length - 1; i >= 0; i--) {
+        var report, commentstr;
         if (taskShutsLinac(reports[i])) {
-          var report = reports.splice(i, 1)[0];
-          var commentstr = report.task;
+          report = reports.splice(i, 1)[0];
+          commentstr = report.task;
           if (commentstr.length > 55) {
             commentstr = commentstr.substring(0, 55) + '...';
           }
@@ -60,8 +61,8 @@ router.get('/summary/:key/:value', function(req, res, next) {
           ]);
           linac_ids.push(report._id);
         } else if (taskShutsR1(reports[i])) {
-          var report = reports.splice(i, 1)[0];
-          var commentstr = report.task;
+          report = reports.splice(i, 1)[0];
+          commentstr = report.task;
           if (commentstr.length > 55) {
             commentstr = commentstr.substring(0, 55) + '...';
           }
@@ -74,8 +75,8 @@ router.get('/summary/:key/:value', function(req, res, next) {
           ]);
           r1_ids.push(report._id);
         } else if (taskShutsR3(reports[i])) {
-          var report = reports.splice(i, 1)[0];
-          var commentstr = report.task;
+          report = reports.splice(i, 1)[0];
+          commentstr = report.task;
           if (commentstr.length > 55) {
             commentstr = commentstr.substring(0, 55) + '...';
           }
@@ -128,7 +129,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
   var week_number = req.body.proposedweeknumber;
 
   if (Array.isArray(req.body.location)) {
-    for (loc of req.body.location) {
+    for (var loc of req.body.location) {
       where += loc + ',';
     }
     if (where.charAt(where.length - 1) == ',') {
