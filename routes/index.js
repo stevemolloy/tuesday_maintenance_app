@@ -94,7 +94,6 @@ router.get('/summary/:key/:value', function(req, res, next) {
           r3_ids.push(report._id);
         }
       }
-      console.log(week_numbers);
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
         linac_data: linac_data,
