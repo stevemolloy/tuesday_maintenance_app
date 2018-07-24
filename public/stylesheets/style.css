@@ -29,7 +29,16 @@
   grid-area: foot;
 }
 
-#container>header>a>h1 {
+.centeredselect {
+  width: 250px;
+  margin: 0 auto;
+}
+
+.centeredselect select {
+  width: 250px;
+}
+
+#container>header a h1 {
   display: inline-block;
   font-size: 72px;
   letter-spacing: 0.05em;
@@ -172,7 +181,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   transition: 0.3s;
   width: 80%;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 .cardcontainer {

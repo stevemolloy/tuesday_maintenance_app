@@ -1,12 +1,12 @@
-var MaintenanceTask = require('../models/maintenanceTask').MaintenanceTask;
-var currentWeekNumber = require('current-week-number');
+const MaintenanceTask = require('../models/maintenanceTask').MaintenanceTask;
+const currentWeekNumber = require('current-week-number');
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.get('/new_task', function(req, res, next) {
-  var week_number = currentWeekNumber();
-  var d = new Date().getDay();
+  let week_number = currentWeekNumber();
+  const d = new Date().getDay();
   if (d >= 4) {
     week_number += 2;
   } else {
@@ -27,7 +27,7 @@ router.get('/summary/:val', function(req, res, next) {
 });
 
 router.get('/summary/:key/:value', function(req, res, next) {
-  var search_term = {};
+  const search_term = {};
   if (req.params.key !== 'all' | req.params.value !== 'all') {
     search_term[req.params.key] = req.params.value;
   }
@@ -38,14 +38,18 @@ router.get('/summary/:key/:value', function(req, res, next) {
     })
     .exec(function(err, reports) {
       if (err) return console.error(err);
-      var linac_data = [],
-        linac_ids = [];
-      var r3_data = [],
-        r3_ids = [];
-      var r1_data = [],
-        r1_ids = [];
-      for (var i = reports.length - 1; i >= 0; i--) {
-        var report, commentstr;
+      const linac_data = [];
+      const linac_ids = [];
+      const r3_data = [];
+      const r3_ids = [];
+      const r1_data = [];
+      const r1_ids = [];
+      const week_numbers = [];
+      for (let i = reports.length - 1; i >= 0; i--) {
+        if (!week_numbers.includes(reports[i].week_number)) {
+          week_numbers.push(reports[i].week_number);
+        }
+        let report, commentstr;
         if (taskShutsLinac(reports[i])) {
           report = reports.splice(i, 1)[0];
           commentstr = report.task;
@@ -90,6 +94,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
           r3_ids.push(report._id);
         }
       }
+      console.log(week_numbers);
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
         linac_data: linac_data,
@@ -98,6 +103,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
         r3_ids: r3_ids,
         r1_data: r1_data,
         r1_ids: r1_ids,
+        week_numbers: week_numbers
       });
     });
 });
@@ -121,15 +127,15 @@ function taskShutsR3(report) {
 
 /* POST a new maintenance task */
 router.post('/new_maintenance_task', function(req, res, next) {
-  var timestamp = Date.now();
-  var fullname = req.body.first_name + " " + req.body.last_name;
-  var fixer = req.body.fixer;
-  var where = '';
-  var task = req.body.comment;
-  var week_number = req.body.proposedweeknumber;
+  const timestamp = Date.now();
+  const fullname = req.body.first_name + " " + req.body.last_name;
+  const fixer = req.body.fixer;
+  const task = req.body.comment;
+  const week_number = req.body.proposedweeknumber;
+  let where = '';
 
   if (Array.isArray(req.body.location)) {
-    for (var loc of req.body.location) {
+    for (let loc of req.body.location) {
       where += loc + ',';
     }
     if (where.charAt(where.length - 1) == ',') {
@@ -139,7 +145,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
     where = req.body.location;
   }
 
-  var task_object = new MaintenanceTask({
+  const task_object = new MaintenanceTask({
     datetime: timestamp,
     reporter: fullname,
     fixer: fixer,
@@ -156,14 +162,14 @@ router.post('/new_maintenance_task', function(req, res, next) {
 });
 
 router.post('/edit_maintenance_task', function(req, res, next) {
-  var timestamp = Date.now();
-  var fullname = req.body.first_name + " " + req.body.last_name;
-  var fixer = req.body.fixer;
-  var where = req.body.location;
-  var task = req.body.comment;
-  var week_number = req.body.proposedweeknumber;
+  const timestamp = Date.now();
+  const fullname = req.body.first_name + " " + req.body.last_name;
+  const fixer = req.body.fixer;
+  const where = req.body.location;
+  const task = req.body.comment;
+  const week_number = req.body.proposedweeknumber;
 
-  var new_data = {
+  const new_data = {
     datetime: timestamp,
     reporter: fullname,
     fixer: fixer,

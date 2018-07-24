@@ -4,12 +4,17 @@ block content
   main
     form(action="/new_task")
       button Add a new maintenance task
+    div.centeredselect
+      select.field-select
+        option(value="week_number", selected) Week number
+        each week_number in week_numbers
+          option(value=week_number)= week_number
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
       table#faulttable
         tr
           th 
-          th Maintenance Week
+          th Week
           th Reporter
           th Affected location(s)
           th Responsible
@@ -25,7 +30,7 @@ block content
       table#faulttable
         tr
           th 
-          th Maintenance Week
+          th Week
           th Reporter
           th Affected location(s)
           th Responsible
@@ -36,13 +41,13 @@ block content
               td= index+1
               each cell in datum
                 td= cell
-    
+
     div.report_table
       h1 Interventions that require access to R3
       table#faulttable
         tr
           th 
-          th Maintenance Week
+          th Week
           th Reporter
           th Affected location(s)
           th Responsible
