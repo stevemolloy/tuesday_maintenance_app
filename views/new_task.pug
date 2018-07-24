@@ -19,7 +19,7 @@ block content
             each val in [1, 2, 3, 4, 5, 6, 7, 8, 9]
               option(value=current_weeknumber+val)= current_weeknumber+val
         li
-          label Location affected:
+          label Location(s) affected:
           input(type="checkbox", name="location", value="R11")
           | R11
           br
@@ -38,7 +38,7 @@ block content
           input(type="checkbox", name="location", value="other")
           | Other
         li
-          label Report
+          label Details
             span.required *
           textarea(name="comment", id="comment").field-long.field-textarea
         li
