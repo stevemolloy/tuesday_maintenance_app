@@ -8,7 +8,8 @@ block content
       select.field-select
         option(value="week_number", selected) Week number
         each week_number in week_numbers
-          option(value=week_number)= week_number
+          - var d = "location.href='/summary/week_number/" + week_number + "';"
+          option(onclick=d, value=week_number)= week_number
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
       table#faulttable
