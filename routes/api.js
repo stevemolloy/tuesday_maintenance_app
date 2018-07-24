@@ -20,7 +20,7 @@ router.get('/get/:faultId', function(req, res, next) {
         title: 'MAX-IV Maintenance Tasks',
         report: report
       });
-    })
+    });
 });
 
 router.get('/edit/:faultId', function(req, res, next) {
