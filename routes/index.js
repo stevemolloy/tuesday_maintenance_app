@@ -3,6 +3,7 @@ const currentWeekNumber = require('current-week-number');
 
 const express = require('express');
 const router = express.Router();
+const async = require('async');
 
 router.get('/new_task', function(req, res, next) {
   let week_number = currentWeekNumber();
@@ -31,81 +32,117 @@ router.get('/summary/:key/:value', function(req, res, next) {
   if (req.params.key !== 'all' | req.params.value !== 'all') {
     search_term[req.params.key] = req.params.value;
   }
-  MaintenanceTask
-    .find(search_term)
-    .sort({
-      week_number: -1
-    })
-    .exec(function(err, reports) {
-      if (err) return console.error(err);
-      const linac_data = [];
-      const linac_ids = [];
-      const r3_data = [];
-      const r3_ids = [];
-      const r1_data = [];
-      const r1_ids = [];
-      const week_numbers = [];
-      for (let i = reports.length - 1; i >= 0; i--) {
-        if (!week_numbers.includes(reports[i].week_number)) {
-          week_numbers.push(reports[i].week_number);
+
+  var functionStack = [];
+  functionStack.push((callback) => {
+    MaintenanceTask
+      .find({})
+      .exec((err, docs) => {
+        if (err) throw callback(err);
+        var week_numbers = [];
+        for (let i = 0; i < docs.length; i++) {
+          var week_number = docs[i].week_number;
+          if (!week_numbers.includes(week_number)) {
+            week_numbers.push(week_number);
+          }
         }
-        let report, commentstr;
-        if (taskShutsLinac(reports[i])) {
-          report = reports.splice(i, 1)[0];
-          commentstr = report.task;
-          if (commentstr.length > 55) {
-            commentstr = commentstr.substring(0, 55) + '...';
-          }
-          linac_data.push([
-            report.week_number,
-            report.reporter,
-            report.where,
-            report.fixer,
-            commentstr
-          ]);
-          linac_ids.push(report._id);
-        } else if (taskShutsR1(reports[i])) {
-          report = reports.splice(i, 1)[0];
-          commentstr = report.task;
-          if (commentstr.length > 55) {
-            commentstr = commentstr.substring(0, 55) + '...';
-          }
-          r1_data.push([
-            report.week_number,
-            report.reporter,
-            report.where,
-            report.fixer,
-            commentstr
-          ]);
-          r1_ids.push(report._id);
-        } else if (taskShutsR3(reports[i])) {
-          report = reports.splice(i, 1)[0];
-          commentstr = report.task;
-          if (commentstr.length > 55) {
-            commentstr = commentstr.substring(0, 55) + '...';
-          }
-          r3_data.push([
-            report.week_number,
-            report.reporter,
-            report.where,
-            report.fixer,
-            commentstr
-          ]);
-          r3_ids.push(report._id);
-        }
-      }
+        callback(null, week_numbers);
+      });
+  });
+
+  functionStack.push((callback) => {
+    MaintenanceTask
+      .find(search_term)
+      .sort({
+        week_number: -1
+      })
+      .exec(function(err, reports) {
+        if (err) return console.error(err);
+        data = generate_data(reports);
+        callback(null, data);
+      });
+  });
+
+  async.parallel(
+    functionStack,
+    (err, data) => {
+      if (err) console.log(error);
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
-        linac_data: linac_data,
-        linac_ids: linac_ids,
-        r3_data: r3_data,
-        r3_ids: r3_ids,
-        r1_data: r1_data,
-        r1_ids: r1_ids,
-        week_numbers: week_numbers
+        linac_data: data[1].linac_data,
+        linac_ids: data[1].linac_ids,
+        r3_data: data[1].r3_data,
+        r3_ids: data[1].r3_ids,
+        r1_data: data[1].r1_data,
+        r1_ids: data[1].r1_ids,
+        week_numbers: data[0]
       });
-    });
+    }
+  );
 });
+
+function generate_data(reports) {
+  const linac_data = [];
+  const linac_ids = [];
+  const r3_data = [];
+  const r3_ids = [];
+  const r1_data = [];
+  const r1_ids = [];
+  for (let i = reports.length - 1; i >= 0; i--) {
+    let report, commentstr;
+    if (taskShutsLinac(reports[i])) {
+      report = reports.splice(i, 1)[0];
+      commentstr = report.task;
+      if (commentstr.length > 55) {
+        commentstr = commentstr.substring(0, 55) + '...';
+      }
+      linac_data.push([
+        report.week_number,
+        report.reporter,
+        report.where,
+        report.fixer,
+        commentstr
+      ]);
+      linac_ids.push(report._id);
+    } else if (taskShutsR1(reports[i])) {
+      report = reports.splice(i, 1)[0];
+      commentstr = report.task;
+      if (commentstr.length > 55) {
+        commentstr = commentstr.substring(0, 55) + '...';
+      }
+      r1_data.push([
+        report.week_number,
+        report.reporter,
+        report.where,
+        report.fixer,
+        commentstr
+      ]);
+      r1_ids.push(report._id);
+    } else if (taskShutsR3(reports[i])) {
+      report = reports.splice(i, 1)[0];
+      commentstr = report.task;
+      if (commentstr.length > 55) {
+        commentstr = commentstr.substring(0, 55) + '...';
+      }
+      r3_data.push([
+        report.week_number,
+        report.reporter,
+        report.where,
+        report.fixer,
+        commentstr
+      ]);
+      r3_ids.push(report._id);
+    }
+  }
+  return {
+    linac_data,
+    linac_ids,
+    r3_data,
+    r3_ids,
+    r1_data,
+    r1_ids
+  };
+}
 
 function taskShutsLinac(report) {
   return report.where.includes('linac') ||
