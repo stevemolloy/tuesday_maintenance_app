@@ -13,8 +13,15 @@ var apiRouter = require('./routes/api');
 var app = express();
 
 //Set up mongoose connection
-var mongoDB = process.env.DBURL;
-mongoose.connect(mongoDB);
+var mongoDBurl = process.env.DBURL;
+mongoose.connect(mongoDBurl, {
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 1000, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0,
+  connectTimeoutMS: 2000, // Give up initial connection after 2 seconds
+});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
