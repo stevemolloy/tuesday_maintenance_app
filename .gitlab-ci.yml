@@ -22,7 +22,6 @@ build_image_develop:
     - docker build . -t docker.maxiv.lu.se/maint-test
     - docker push docker.maxiv.lu.se/maint-test
   only:
-    - master
     - develop
 
 deploy_image_develop:
@@ -30,5 +29,4 @@ deploy_image_develop:
   script:
   - "curl -H 'Authorization: Bearer gOj9o8s3RapHiThfNbImaFYMDoOKTG' -k --request POST https://ansible.maxiv.lu.se/api/v2/job_templates/14/launch/"
   only:
-    - master
     - develop
