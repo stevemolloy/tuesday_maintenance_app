@@ -26,6 +26,7 @@ block content
               td= index+1
               each cell in datum
                 td= cell
+
     div.report_table
       h1 Interventions that require access to R1
       table#faulttable
@@ -55,6 +56,23 @@ block content
           th Comment
           each datum, index in r3_data
             - var d = "location.href='/api/get/" + r3_ids[index] + "';"
+            tr(onclick=d)
+              td= index+1
+              each cell in datum
+                td= cell
+
+    div.report_table
+      h1 Other interventions
+      table#faulttable
+        tr
+          th 
+          th Week
+          th Reporter
+          th Affected location(s)
+          th Responsible
+          th Comment
+          each datum, index in other_data
+            - var d = "location.href='/api/get/" + other_ids[index] + "';"
             tr(onclick=d)
               td= index+1
               each cell in datum
