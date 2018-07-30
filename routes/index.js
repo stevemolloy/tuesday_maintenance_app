@@ -67,10 +67,13 @@ router.get('/summary/:key/:value', function(req, res, next) {
     functionStack,
     (err, data) => {
       if (err) console.log(error);
+      console.log(data[1].other_data);
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
         linac_data: data[1].linac_data,
         linac_ids: data[1].linac_ids,
+        other_data: data[1].other_data,
+        other_ids: data[1].other_ids,
         r3_data: data[1].r3_data,
         r3_ids: data[1].r3_ids,
         r1_data: data[1].r1_data,
@@ -82,6 +85,8 @@ router.get('/summary/:key/:value', function(req, res, next) {
 });
 
 function generate_data(reports) {
+  const other_data = [];
+  const other_ids = [];
   const linac_data = [];
   const linac_ids = [];
   const r3_data = [];
@@ -132,11 +137,27 @@ function generate_data(reports) {
         commentstr
       ]);
       r3_ids.push(report._id);
+    } else if (taskForOther(reports[i])) {
+      report = reports.splice(i, 1)[0];
+      commentstr = report.task;
+      if (commentstr.length > 55) {
+        commentstr = commentstr.substring(0, 55) + '...';
+      }
+      other_data.push([
+        report.week_number,
+        report.reporter,
+        report.where,
+        report.fixer,
+        commentstr
+      ]);
+      other_ids.push(report._id);
     }
   }
   return {
     linac_data,
     linac_ids,
+    other_data,
+    other_ids,
     r3_data,
     r3_ids,
     r1_data,
@@ -155,10 +176,15 @@ function taskShutsR1(report) {
 }
 
 function taskShutsR3(report) {
-  return report.where.includes('R32') ||
+  return report.where.includes('R31') ||
+    report.where.includes('R32') ||
     report.where.includes('R33') ||
     report.where.includes('R34') ||
     report.where.includes('R35');
+}
+
+function taskForOther(report) {
+  return report.where.includes('other');
 }
 
 /* POST a new maintenance task */
