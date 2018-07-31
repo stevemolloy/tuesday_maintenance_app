@@ -16,8 +16,10 @@ block content
           label Proposed week number for this task:
           select(name="proposedweeknumber").field-select
             option(value=current_weeknumber, selected)= current_weeknumber
-            each val in [1, 2, 3, 4, 5, 6, 7, 8, 9]
-              option(value=current_weeknumber+val)= current_weeknumber+val
+            - var incr = 1
+            while incr < 10
+              - var weekn = ((current_weeknumber+incr++) % 52) + 1
+              option(value=weekn)= weekn
         li
           label Location(s) affected:
           input(type="checkbox", name="location", value="R11")

@@ -67,7 +67,6 @@ router.get('/summary/:key/:value', function(req, res, next) {
     functionStack,
     (err, data) => {
       if (err) console.log(error);
-      console.log(data[1].other_data);
       res.render('list_all', {
         title: 'MAX-IV Maintenance Tasks',
         linac_data: data[1].linac_data,
