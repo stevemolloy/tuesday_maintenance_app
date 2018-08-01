@@ -16,11 +16,11 @@ block content
         li
           label Proposed week number for this task:
           select(name="proposedweeknumber").field-select
-            each val in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-              if current_weeknumber+val === report.week_number
-                option(value=current_weeknumber+val, selected)= current_weeknumber+val
-              else
-                option(value=current_weeknumber+val)= current_weeknumber+val
+            option(value=current_weeknumber, selected)= current_weeknumber
+            - var incr = 1
+            while incr < 10
+              - var weekn = ((current_weeknumber+incr++) % 52) + 1
+              option(value=weekn)= weekn
         li
           label Location affected:
           if report.where.includes('R11')
