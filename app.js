@@ -15,12 +15,12 @@ var app = express();
 //Set up mongoose connection
 var mongoDBurl = process.env.DBURL;
 mongoose.connect(mongoDBurl, {
-    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-    reconnectInterval: 1000, // Reconnect every 1000ms
-    poolSize: 10, // Maintain up to 10 socket connections
-    // If not connected, return errors immediately rather than waiting for reconnect
-    bufferMaxEntries: 0,
-    connectTimeoutMS: 2000, // Give up initial connection after 2 seconds
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 1000, // Reconnect every 1000ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0,
+  connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
   })
   .catch(err => {
     console.error('Initial Mongodb connection failed: ' + err.stack);
