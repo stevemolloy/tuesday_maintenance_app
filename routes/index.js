@@ -37,6 +37,9 @@ router.get('/summary/:key/:value', function(req, res, next) {
   functionStack.push((callback) => {
     MaintenanceTask
       .find({})
+      .sort({
+        week_number: 1
+      })
       .exec((err, docs) => {
         if (err) throw callback(err);
         var week_numbers = [];
