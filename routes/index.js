@@ -219,6 +219,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
     fixer: fixer,
     where: where,
     task: task,
+    done_yet: 'No',
     week_number: week_number
   });
   task_object.save(function(err) {
