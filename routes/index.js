@@ -108,6 +108,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.done_yet ? report.done_yet : 'No',
         commentstr
       ]);
       linac_ids.push(report._id);
@@ -122,6 +123,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.done_yet ? report.done_yet : 'No',
         commentstr
       ]);
       r1_ids.push(report._id);
@@ -136,6 +138,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.done_yet ? report.done_yet : 'No',
         commentstr
       ]);
       r3_ids.push(report._id);
@@ -150,6 +153,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.done_yet ? report.done_yet : 'No',
         commentstr
       ]);
       other_ids.push(report._id);

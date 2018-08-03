@@ -4,10 +4,17 @@ block content
     main
       form(action="/api/edit/"+report._id)
         button Edit
+      form(action="/api/markdone/"+report._id)
+        button Mark task completed
       div.card
         div.cardcontainer
           h2 Scheduled for week number:
             b= report.week_number
+          h3 Task completed?
+            if report.done_yet
+              b= report.done_yet
+            else
+              b No
           p Reported by: 
             b= report.reporter
           p Reported: 
