@@ -9,6 +9,7 @@ var MaintenanceTaskSchema = new Schema(
     fixer: {type: String, max: 128},
     where: {type:String, max: 128},
     task: {type: String, max: 8192},
+    done_yet: String,
     week_number: {type: Number}
   }
 );
