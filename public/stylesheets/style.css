@@ -20,7 +20,7 @@
 
 #container>main {
   grid-area: main;
-  width: 960px;
+  width: 1060px;
   margin: 0 auto;
   font-family: 'Raleway', sans-serif;
 }
