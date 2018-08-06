@@ -30,13 +30,23 @@ router.get('/edit/:faultId', function(req, res, next) {
     })
     .exec(function(err, report) {
       if (err) return console.error(err);
-      console.log(report.week_number);
       res.render('edit_task', {
         title: 'MAX-IV Maintenance Tasks',
         report: report,
         current_weeknumber: currentWeekNumber()
       });
     });
+});
+
+router.get('/markdone/:faultId', function(req, res, next) {
+  MaintenanceTask.findByIdAndUpdate(
+    req.params.faultId,
+    {$set: {'done_yet': 'Yes'}},
+    function(err, result) {
+      if (err) console.error(err);
+      res.redirect('/api/get/' + req.params.faultId);
+    }
+  );
 });
 
 module.exports = router;

@@ -16,7 +16,7 @@ block content
           label Proposed week number for this task:
           select(name="proposedweeknumber").field-select
             option(value=current_weeknumber, selected)= current_weeknumber
-            - var incr = 1
+            - var incr = 0
             while incr < 10
               - var weekn = ((current_weeknumber+incr++) % 52) + 1
               option(value=weekn)= weekn

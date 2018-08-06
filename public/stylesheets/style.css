@@ -20,7 +20,7 @@
 
 #container>main {
   grid-area: main;
-  width: 960px;
+  width: 1060px;
   margin: 0 auto;
   font-family: 'Raleway', sans-serif;
 }
@@ -78,7 +78,7 @@
 
 .form-style-1 {
   /* margin: 10px auto; */
-  max-width: 960px;
+  max-width: 1060px;
   /* padding: 20px 0 10px 0; */
   font: 13px;
 }
