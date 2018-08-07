@@ -72,7 +72,13 @@
   background-color: hsl(175, 25%, 30%);
 }
 
-#container>footer>p>i {
+#container>footer>ul {
+  list-style-type: none;
+}
+
+#container>footer>ul>li {
+  display: inline;
+  margin: 10px;
   cursor: pointer;
 }
 
