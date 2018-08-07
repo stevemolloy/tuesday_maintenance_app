@@ -6,6 +6,8 @@ block content
         button Edit
       form(action="/api/markdone/"+report._id)
         button Mark task completed
+      form(action="/api/archive/"+report._id, onsubmit="return confirm('Click OK to remove this task');")
+        button Remove task
       div.card
         div.cardcontainer
           h2 Scheduled for week number:
