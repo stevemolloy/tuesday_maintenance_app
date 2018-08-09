@@ -49,4 +49,15 @@ router.get('/markdone/:faultId', function(req, res, next) {
   );
 });
 
+router.get('/archive/:faultId', function(req, res, next) {
+  MaintenanceTask.findByIdAndUpdate(
+    req.params.faultId,
+    {$set: {'archived': true}},
+    function(err, result) {
+      if (err) console.error(err);
+      res.redirect('/');
+    }
+  );
+});
+
 module.exports = router;

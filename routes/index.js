@@ -28,7 +28,7 @@ router.get('/summary/:val', function(req, res, next) {
 });
 
 router.get('/summary/:key/:value', function(req, res, next) {
-  const search_term = {};
+  const search_term = {archived: {$ne: true}};
   if (req.params.key !== 'all' | req.params.value !== 'all') {
     search_term[req.params.key] = req.params.value;
   }
@@ -36,7 +36,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
   var functionStack = [];
   functionStack.push((callback) => {
     MaintenanceTask
-      .find({})
+      .find({archived: {$ne: true}})
       .sort({
         week_number: 1
       })

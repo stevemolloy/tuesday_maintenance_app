@@ -10,7 +10,8 @@ var MaintenanceTaskSchema = new Schema(
     where: {type:String, max: 128},
     task: {type: String, max: 8192},
     done_yet: String,
-    week_number: {type: Number}
+    week_number: {type: Number},
+    archived: Boolean
   }
 );
 

@@ -5,7 +5,7 @@ doctype html
 html
   head
     title= title
-    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.0.13/css/all.css", integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp", crossorigin="anonymous")
+    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin="anonymous")
     link(href="https://fonts.googleapis.com/css?family=Raleway", rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
@@ -15,5 +15,8 @@ html
           h1= title
       block content
       footer
-        p
-          i(onclick="location.href='https://gitlab.maxiv.lu.se/operations/tuesday_maintenance_app'").fab.fa-gitlab
+        ul
+          li
+            i(onclick="location.href='https://gitlab.maxiv.lu.se/operations/tuesday_maintenance_app'").fab.fa-gitlab   
+          li
+            i(onclick="location.href='/summary/archived/true'").fas.fa-trash
