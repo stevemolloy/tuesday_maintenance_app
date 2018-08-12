@@ -1,27 +1,30 @@
 extends layout
 
 block content
-    main
-      div.card
-        div.cardcontainer
-          ul
-            li(onclick="location.href='/api/edit/"+report._id+"'") Edit
-            li(onclick="location.href='/api/markdone/"+report._id+"'") Mark task completed
-            li(onclick="if (confirm('Click OK to remove this task')) location.href='/api/archive/"+report._id+"';") Remove task
-          h2 Scheduled for week number:
-            b= report.week_number
-          h3 Task completed?
-            if report.done_yet
-              b= report.done_yet
-            else
-              b No
-          p Reported by: 
-            b= report.reporter
-          p Reported: 
-            b= report.datetime
-          p Affected location(s):
-            b= report.where
-          p To be performed by:
-            b= report.fixer
-          p Task: 
-            b= report.task
+  main
+    div.card
+      div.cardcontainer
+        ul
+          li(onclick="location.href='/api/edit/"+report._id+"'") Edit
+          if report.approved
+            li(onclick="if (confirm('Click OK if your name is Johan Thånell, and you wish to remove your approval for this task.')) location.href='/api/unapprove/"+report._id+"'") Remove task approval
+          else
+            li(onclick="if (confirm('Click OK if your name is Johan Thånell, and you wish to confirm this task.')) location.href='/api/approve/"+report._id+"'") Approve task
+          li(onclick="if (confirm('Click OK to remove this task')) location.href='/api/archive/"+report._id+"';") Remove task
+        h2 Scheduled for week number:
+          b= report.week_number
+        h3 Task approved?
+          if report.approved
+            b Yes
+          else
+            b No
+        p Reported by: 
+          b= report.reporter
+        p Reported: 
+          b= report.datetime
+        p Affected location(s):
+          b= report.where
+        p To be performed by:
+          b= report.fixer
+        p Task: 
+          b= report.task

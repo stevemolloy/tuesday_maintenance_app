@@ -38,7 +38,7 @@ router.get('/edit/:faultId', function(req, res, next) {
     });
 });
 
-router.get('/markdone/:faultId', function(req, res, next) {
+router.get('/approve/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'approved': true}},
