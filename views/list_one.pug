@@ -2,14 +2,12 @@ extends layout
 
 block content
     main
-      form(action="/api/edit/"+report._id)
-        button Edit
-      form(action="/api/markdone/"+report._id)
-        button Mark task completed
-      form(action="/api/archive/"+report._id, onsubmit="return confirm('Click OK to remove this task');")
-        button Remove task
       div.card
         div.cardcontainer
+          ul
+            li(onclick="location.href='/api/edit/"+report._id+"'") Edit
+            li(onclick="location.href='/api/markdone/"+report._id+"'") Mark task completed
+            li(onclick="if (confirm('Click OK to remove this task')) location.href='/api/archive/"+report._id+"';") Remove task
           h2 Scheduled for week number:
             b= report.week_number
           h3 Task completed?

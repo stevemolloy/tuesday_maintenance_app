@@ -49,6 +49,25 @@
   color: hsl(175, 25%, 90%);
 }
 
+#container>main>.card>.cardcontainer>ul {
+  margin: 10px;
+  list-style-type: none;
+}
+
+#container>main>.card>.cardcontainer>ul>li {
+  display: inline;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+  border-radius: 3px;
+}
+
 #container>main button {
   height: 4.5ex;
   margin: 0 0 10px 35%;
@@ -194,6 +213,7 @@
 }
 
 .cardcontainer {
+  margin: 2px 16px;
   padding: 2px 16px;
 }
 
