@@ -41,7 +41,18 @@ router.get('/edit/:faultId', function(req, res, next) {
 router.get('/markdone/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
-    {$set: {'done_yet': 'Yes'}},
+    {$set: {'approved': true}},
+    function(err, result) {
+      if (err) console.error(err);
+      res.redirect('/api/get/' + req.params.faultId);
+    }
+  );
+});
+
+router.get('/unapprove/:faultId', function(req, res, next) {
+  MaintenanceTask.findByIdAndUpdate(
+    req.params.faultId,
+    {$set: {'approved': false}},
     function(err, result) {
       if (err) console.error(err);
       res.redirect('/api/get/' + req.params.faultId);
