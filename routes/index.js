@@ -108,7 +108,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
-        report.done_yet ? report.done_yet : 'No',
+        report.approved ? 'Yes' : 'No',
         commentstr
       ]);
       linac_ids.push(report._id);
@@ -123,7 +123,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
-        report.done_yet ? report.done_yet : 'No',
+        report.approved ? 'Yes' : 'No',
         commentstr
       ]);
       r1_ids.push(report._id);
@@ -138,7 +138,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
-        report.done_yet ? report.done_yet : 'No',
+        report.approved ? 'Yes' : 'No',
         commentstr
       ]);
       r3_ids.push(report._id);
@@ -153,7 +153,7 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
-        report.done_yet ? report.done_yet : 'No',
+        report.approved ? 'Yes' : 'No',
         commentstr
       ]);
       other_ids.push(report._id);
@@ -219,7 +219,7 @@ router.post('/new_maintenance_task', function(req, res, next) {
     fixer: fixer,
     where: where,
     task: task,
-    done_yet: 'No',
+    approved: false,
     week_number: week_number
   });
   task_object.save(function(err) {
