@@ -17,7 +17,7 @@ router.get('/get/:faultId', function(req, res, next) {
     .exec(function(err, report) {
       if (err) return console.error(err);
       res.render('list_one', {
-        title: 'MAX-IV Maintenance Tasks',
+        title: 'MAX-IV: Maintenance Tasks',
         report: report
       });
     });
@@ -31,7 +31,7 @@ router.get('/edit/:faultId', function(req, res, next) {
     .exec(function(err, report) {
       if (err) return console.error(err);
       res.render('edit_task', {
-        title: 'MAX-IV Maintenance Tasks',
+        title: 'MAX-IV: Maintenance Tasks',
         report: report,
         current_weeknumber: currentWeekNumber()
       });

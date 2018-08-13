@@ -70,8 +70,15 @@ router.get('/summary/:key/:value', function(req, res, next) {
     functionStack,
     (err, data) => {
       if (err) console.log(error);
+      var page_title;
+      if (req.params.key === 'archived' & req.params.value === 'true') {
+        page_title = 'MAX IV: Deleted Tasks';
+      }
+      else {
+        page_title = 'MAX-IV: Maintenance Tasks';
+      }
       res.render('list_all', {
-        title: 'MAX-IV Maintenance Tasks',
+        title: page_title,
         linac_data: data[1].linac_data,
         linac_ids: data[1].linac_ids,
         other_data: data[1].other_data,
