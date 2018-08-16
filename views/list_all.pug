@@ -37,7 +37,7 @@ block content
           th Reporter
           th Affected location(s)
           th Responsible
-          th Done?
+          th Approved?
           th Comment
           each datum, index in r1_data
             - var d = "location.href='/api/get/" + r1_ids[index] + "';"
@@ -55,7 +55,7 @@ block content
           th Reporter
           th Affected location(s)
           th Responsible
-          th Done?
+          th Approved?
           th Comment
           each datum, index in r3_data
             - var d = "location.href='/api/get/" + r3_ids[index] + "';"
@@ -73,7 +73,7 @@ block content
           th Reporter
           th Affected location(s)
           th Responsible
-          th Done?
+          th Approved?
           th Comment
           each datum, index in other_data
             - var d = "location.href='/api/get/" + other_ids[index] + "';"
