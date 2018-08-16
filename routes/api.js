@@ -44,7 +44,7 @@ router.get('/approve/:faultId', function(req, res, next) {
     {$set: {'approved': true}},
     function(err, result) {
       if (err) console.error(err);
-      res.redirect('/api/get/' + req.params.faultId);
+      res.redirect('/');
     }
   );
 });
@@ -55,7 +55,7 @@ router.get('/unapprove/:faultId', function(req, res, next) {
     {$set: {'approved': false}},
     function(err, result) {
       if (err) console.error(err);
-      res.redirect('/api/get/' + req.params.faultId);
+      res.redirect('/');
     }
   );
 });
