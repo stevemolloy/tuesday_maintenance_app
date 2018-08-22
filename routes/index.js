@@ -115,6 +115,8 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.starttime,
+        report.endtime,
         report.approved ? 'Yes' : 'No',
         commentstr
       ]);
@@ -130,6 +132,8 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.starttime,
+        report.endtime,
         report.approved ? 'Yes' : 'No',
         commentstr
       ]);
@@ -145,6 +149,8 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.starttime,
+        report.endtime,
         report.approved ? 'Yes' : 'No',
         commentstr
       ]);
@@ -160,6 +166,8 @@ function generate_data(reports) {
         report.reporter,
         report.where,
         report.fixer,
+        report.starttime,
+        report.endtime,
         report.approved ? 'Yes' : 'No',
         commentstr
       ]);
@@ -207,6 +215,8 @@ router.post('/new_maintenance_task', function(req, res, next) {
   const fixer = req.body.fixer;
   const task = req.body.comment;
   const week_number = req.body.proposedweeknumber;
+  const starttime = req.body.starttime;
+  const endtime = req.body.endtime;
   let where = '';
 
   if (Array.isArray(req.body.location)) {
@@ -226,6 +236,8 @@ router.post('/new_maintenance_task', function(req, res, next) {
     fixer: fixer,
     where: where,
     task: task,
+    starttime: starttime,
+    endtime: endtime,
     approved: false,
     week_number: week_number
   });
