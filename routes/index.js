@@ -79,6 +79,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
       }
       res.render('list_all', {
         title: page_title,
+        selected_week: req.params.value,
         linac_data: data[1].linac_data,
         linac_ids: data[1].linac_ids,
         other_data: data[1].other_data,

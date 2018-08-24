@@ -6,10 +6,16 @@ block content
       button Add a new maintenance task
     div.centeredselect
       select.field-select
-        option(value="week_number", selected) Week number
+        if selected_week=="all"
+          option(onclick="location.href='/'", value="week_number", selected) Week number: all
+        else
+          option(onclick="location.href='/'", value="week") Week number: all
         each week_number in week_numbers
           - var d = "location.href='/summary/week_number/" + week_number + "';"
-          option(onclick=d, value=week_number)= week_number
+          if selected_week==week_number
+            option(onclick=d, value=week_number, selected)= "Week number: " + week_number
+          else
+            option(onclick=d, value=week_number)= "Week number: " + week_number
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
       table#faulttable
