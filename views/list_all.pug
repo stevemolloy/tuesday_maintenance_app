@@ -6,21 +6,19 @@ block content
       button Add a new maintenance task
     div.centeredselect
       select.field-select
-        option(value="week_number", selected) Week number
+        if selected_week=="all"
+          option(onclick="location.href='/'", value="week_number", selected) Week number: all
+        else
+          option(onclick="location.href='/'", value="week") Week number: all
         each week_number in week_numbers
           - var d = "location.href='/summary/week_number/" + week_number + "';"
-          option(onclick=d, value=week_number)= week_number
+          if selected_week==week_number
+            option(onclick=d, value=week_number, selected)= "Week number: " + week_number
+          else
+            option(onclick=d, value=week_number)= "Week number: " + week_number
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
-      table#faulttable
-        tr
-          th 
-          th Week
-          th Reporter
-          th Affected location(s)
-          th Responsible
-          th Approved?
-          th Comment
+      include table_headings.pug
           each datum, index in linac_data
             - var d = "location.href='/api/get/" + linac_ids[index] + "';"
             tr(onclick=d)
@@ -30,15 +28,7 @@ block content
 
     div.report_table
       h1 Interventions that require access to R1
-      table#faulttable
-        tr
-          th 
-          th Week
-          th Reporter
-          th Affected location(s)
-          th Responsible
-          th Approved?
-          th Comment
+      include table_headings.pug
           each datum, index in r1_data
             - var d = "location.href='/api/get/" + r1_ids[index] + "';"
             tr(onclick=d)
@@ -48,15 +38,7 @@ block content
 
     div.report_table
       h1 Interventions that require access to R3
-      table#faulttable
-        tr
-          th 
-          th Week
-          th Reporter
-          th Affected location(s)
-          th Responsible
-          th Approved?
-          th Comment
+      include table_headings.pug
           each datum, index in r3_data
             - var d = "location.href='/api/get/" + r3_ids[index] + "';"
             tr(onclick=d)
@@ -66,15 +48,7 @@ block content
 
     div.report_table
       h1 Other interventions
-      table#faulttable
-        tr
-          th 
-          th Week
-          th Reporter
-          th Affected location(s)
-          th Responsible
-          th Approved?
-          th Comment
+      include table_headings.pug
           each datum, index in other_data
             - var d = "location.href='/api/get/" + other_ids[index] + "';"
             tr(onclick=d)

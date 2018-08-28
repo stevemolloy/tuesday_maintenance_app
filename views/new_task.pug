@@ -7,21 +7,29 @@ block content
         li
           label Your Name
             span.required *
-          input(type="text", name="first_name", placeholder="First").field-divided
-          input(type="text", name="last_name", placeholder="Last").field-divided
+          input(type="text", name="first_name", placeholder="First", required).field-divided
+          input(type="text", name="last_name", placeholder="Last", required).field-divided
         li
           label Responsible
-          input(type="text", name="fixer", placeholder="Person/team").field-long
+            span.required *
+          input(type="text", name="fixer", placeholder="Person/team", required).field-long
         li
           label Proposed week number for this task:
-          select(name="proposedweeknumber").field-select
+            span.required *
+          select(name="proposedweeknumber", required).field-select
             option(value=current_weeknumber, selected)= current_weeknumber
             - var incr = 0
             while incr < 10
               - var weekn = ((current_weeknumber+incr++) % 52) + 1
               option(value=weekn)= weekn
         li
+          label Start and end time
+            span.required *
+          input(type="text", name="starttime", placeholder="Start time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+          input(type="text", name="endtime", placeholder="End time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+        li
           label Location(s) affected:
+            span.required *
           input(type="checkbox", name="location", value="R11")
           | R11
           br
@@ -42,7 +50,7 @@ block content
         li
           label Details
             span.required *
-          textarea(name="comment", id="comment").field-long.field-textarea
+          textarea(name="comment", id="comment", required).field-long.field-textarea
         li
           button Submit
     button(onClick="window.history.go(-1)") Cancel

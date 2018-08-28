@@ -79,6 +79,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
       }
       res.render('list_all', {
         title: page_title,
+        selected_week: req.params.value,
         linac_data: data[1].linac_data,
         linac_ids: data[1].linac_ids,
         other_data: data[1].other_data,
@@ -106,18 +107,7 @@ function generate_data(reports) {
     let report, commentstr;
     if (taskShutsLinac(reports[i])) {
       report = reports.splice(i, 1)[0];
-      commentstr = report.task;
-      if (commentstr.length > 55) {
-        commentstr = commentstr.substring(0, 55) + '...';
-      }
-      linac_data.push([
-        report.week_number,
-        report.reporter,
-        report.where,
-        report.fixer,
-        report.approved ? 'Yes' : 'No',
-        commentstr
-      ]);
+      linac_data.push(dataToPush(report));
       linac_ids.push(report._id);
     } else if (taskShutsR1(reports[i])) {
       report = reports.splice(i, 1)[0];
@@ -125,14 +115,7 @@ function generate_data(reports) {
       if (commentstr.length > 55) {
         commentstr = commentstr.substring(0, 55) + '...';
       }
-      r1_data.push([
-        report.week_number,
-        report.reporter,
-        report.where,
-        report.fixer,
-        report.approved ? 'Yes' : 'No',
-        commentstr
-      ]);
+      r1_data.push(dataToPush(report));
       r1_ids.push(report._id);
     } else if (taskShutsR3(reports[i])) {
       report = reports.splice(i, 1)[0];
@@ -140,14 +123,7 @@ function generate_data(reports) {
       if (commentstr.length > 55) {
         commentstr = commentstr.substring(0, 55) + '...';
       }
-      r3_data.push([
-        report.week_number,
-        report.reporter,
-        report.where,
-        report.fixer,
-        report.approved ? 'Yes' : 'No',
-        commentstr
-      ]);
+      r3_data.push(dataToPush(report));
       r3_ids.push(report._id);
     } else if (taskForOther(reports[i])) {
       report = reports.splice(i, 1)[0];
@@ -155,14 +131,7 @@ function generate_data(reports) {
       if (commentstr.length > 55) {
         commentstr = commentstr.substring(0, 55) + '...';
       }
-      other_data.push([
-        report.week_number,
-        report.reporter,
-        report.where,
-        report.fixer,
-        report.approved ? 'Yes' : 'No',
-        commentstr
-      ]);
+      other_data.push(dataToPush(report));
       other_ids.push(report._id);
     }
   }
@@ -207,6 +176,8 @@ router.post('/new_maintenance_task', function(req, res, next) {
   const fixer = req.body.fixer;
   const task = req.body.comment;
   const week_number = req.body.proposedweeknumber;
+  const starttime = req.body.starttime;
+  const endtime = req.body.endtime;
   let where = '';
 
   if (Array.isArray(req.body.location)) {
@@ -226,6 +197,8 @@ router.post('/new_maintenance_task', function(req, res, next) {
     fixer: fixer,
     where: where,
     task: task,
+    starttime: starttime,
+    endtime: endtime,
     approved: false,
     week_number: week_number
   });
@@ -263,5 +236,22 @@ router.post('/edit_maintenance_task', function(req, res, next) {
     }
   );
 });
+
+function dataToPush(report) {
+  commentstr = report.task;
+  if (commentstr.length > 55) {
+    commentstr = commentstr.substring(0, 55) + '...';
+  }
+  return [
+        report.week_number,
+        report.reporter,
+        report.where,
+        report.fixer,
+        report.starttime,
+        report.endtime,
+        report.approved ? 'Yes' : 'No',
+        commentstr
+  ];
+}
 
 module.exports = router;
