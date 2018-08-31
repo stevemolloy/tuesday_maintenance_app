@@ -47,6 +47,16 @@ block content
                 td= cell
 
     div.report_table
+      h1 Interventions that require access to SPF
+      include table_headings.pug
+          each datum, index in spf_data
+            - var d = "window.location.assign('/api/get/" + spf_ids[index] + "');"
+            tr(onclick=d)
+              td= index+1
+              each cell in datum
+                td= cell
+
+    div.report_table
       h1 Other interventions
       include table_headings.pug
           each datum, index in other_data

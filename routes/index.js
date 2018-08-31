@@ -86,6 +86,8 @@ router.get('/summary/:key/:value', function(req, res, next) {
         other_ids: data[1].other_ids,
         r3_data: data[1].r3_data,
         r3_ids: data[1].r3_ids,
+        spf_data: data[1].spf_data,
+        spf_ids: data[1].spf_ids,
         r1_data: data[1].r1_data,
         r1_ids: data[1].r1_ids,
         week_numbers: data[0]
@@ -103,34 +105,27 @@ function generate_data(reports) {
   const r3_ids = [];
   const r1_data = [];
   const r1_ids = [];
+  const spf_data = [];
+  const spf_ids = [];
   for (let i = reports.length - 1; i >= 0; i--) {
-    let report, commentstr;
-    if (taskShutsLinac(reports[i])) {
-      report = reports.splice(i, 1)[0];
+    let report = reports.splice(i, 1)[0];
+    if (taskShutsLinac(report)) {
       linac_data.push(dataToPush(report));
       linac_ids.push(report._id);
-    } else if (taskShutsR1(reports[i])) {
-      report = reports.splice(i, 1)[0];
-      commentstr = report.task;
-      if (commentstr.length > 55) {
-        commentstr = commentstr.substring(0, 55) + '...';
-      }
+    }
+    if (taskShutsR1(report)) {
       r1_data.push(dataToPush(report));
       r1_ids.push(report._id);
-    } else if (taskShutsR3(reports[i])) {
-      report = reports.splice(i, 1)[0];
-      commentstr = report.task;
-      if (commentstr.length > 55) {
-        commentstr = commentstr.substring(0, 55) + '...';
-      }
+    }
+    if (taskShutsR3(report)) {
       r3_data.push(dataToPush(report));
       r3_ids.push(report._id);
-    } else if (taskForOther(reports[i])) {
-      report = reports.splice(i, 1)[0];
-      commentstr = report.task;
-      if (commentstr.length > 55) {
-        commentstr = commentstr.substring(0, 55) + '...';
-      }
+    }
+    if (taskShutsSPF(report)) {
+      spf_data.push(dataToPush(report));
+      spf_ids.push(report._id);
+    }
+    if (taskForOther(report)) {
       other_data.push(dataToPush(report));
       other_ids.push(report._id);
     }
@@ -142,6 +137,8 @@ function generate_data(reports) {
     other_ids,
     r3_data,
     r3_ids,
+    spf_data,
+    spf_ids,
     r1_data,
     r1_ids
   };
@@ -163,6 +160,10 @@ function taskShutsR3(report) {
     report.where.includes('R33') ||
     report.where.includes('R34') ||
     report.where.includes('R35');
+}
+
+function taskShutsSPF(report) {
+  return report.where.includes('spf');
 }
 
 function taskForOther(report) {
@@ -214,9 +215,20 @@ router.post('/edit_maintenance_task', function(req, res, next) {
   const timestamp = Date.now();
   const fullname = req.body.first_name + " " + req.body.last_name;
   const fixer = req.body.fixer;
-  const where = req.body.location;
   const task = req.body.comment;
   const week_number = req.body.proposedweeknumber;
+  let where = '';
+
+  if (Array.isArray(req.body.location)) {
+    for (let loc of req.body.location) {
+      where += loc + ',';
+    }
+    if (where.charAt(where.length - 1) == ',') {
+      where = where.slice(0, where.length - 1);
+    }
+  } else {
+    where = req.body.location;
+  }
 
   const new_data = {
     datetime: timestamp,
@@ -231,7 +243,7 @@ router.post('/edit_maintenance_task', function(req, res, next) {
     req.body.task_id,
     new_data,
     function(err, result) {
-      if (err) console.console.error(err);
+      if (err) console.error(err);
       res.redirect('/api/get/' + req.body.task_id);
     }
   );
