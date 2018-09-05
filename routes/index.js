@@ -27,10 +27,10 @@ router.get('/summary/:val', function(req, res, next) {
   res.redirect('/summary/week_number/' + req.params.val);
 });
 
-router.get('/summary/:key/:value', function(req, res, next) {
+router.get('/summary/:searchkey/:searchvalue', function(req, res, next) {
   const search_term = {archived: {$ne: true}};
-  if (req.params.key !== 'all' | req.params.value !== 'all') {
-    search_term[req.params.key] = req.params.value;
+  if (req.params.searchkey !== 'all' | req.params.searchvalue !== 'all') {
+    search_term[req.params.searchkey] = req.params.searchvalue;
   }
 
   var functionStack = [];
@@ -71,7 +71,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
     (err, data) => {
       if (err) console.log(error);
       var page_title;
-      if (req.params.key === 'archived' & req.params.value === 'true') {
+      if (req.params.searchkey === 'archived' & req.params.searchvalue === 'true') {
         page_title = 'MAX IV: Deleted Tasks';
       }
       else {
@@ -79,7 +79,7 @@ router.get('/summary/:key/:value', function(req, res, next) {
       }
       res.render('list_all', {
         title: page_title,
-        selected_week: req.params.value,
+        selected_week: req.params.searchkey==='week_number' ? req.params.searchvalue : 'all',
         linac_data: data[1].linac_data,
         linac_ids: data[1].linac_ids,
         other_data: data[1].other_data,
