@@ -32,6 +32,8 @@ router.get('/summary/:searchkey/:sortkey', function(req, res, next) {
 })
 
 router.get('/summary/:searchkey/:searchvalue/:sortkey/:sortorder/', function(req, res, next) {
+  const sort_term = {};
+  sort_term[req.params.sortkey] = req.params.sortorder
   const search_term = {archived: {$ne: true}};
   if (req.params.searchkey !== 'all' | req.params.searchvalue !== 'all') {
     search_term[req.params.searchkey] = req.params.searchvalue;
@@ -60,9 +62,7 @@ router.get('/summary/:searchkey/:searchvalue/:sortkey/:sortorder/', function(req
   functionStack.push((callback) => {
     MaintenanceTask
       .find(search_term)
-      .sort({
-        week_number: -1
-      })
+      .sort(sort_term)
       .exec(function(err, reports) {
         if (err) return console.error(err);
         data = generate_data(reports);
