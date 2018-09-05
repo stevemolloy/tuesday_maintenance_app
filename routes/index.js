@@ -27,7 +27,11 @@ router.get('/summary/:val', function(req, res, next) {
   res.redirect('/summary/week_number/' + req.params.val);
 });
 
-router.get('/summary/:searchkey/:searchvalue', function(req, res, next) {
+router.get('/summary/:searchkey/:sortkey', function(req, res, next) {
+    res.redirect('/summary/' + req.params.searchkey + '/' + req.params.sortkey + '/week_number/1');
+})
+
+router.get('/summary/:searchkey/:searchvalue/:sortkey/:sortorder/', function(req, res, next) {
   const search_term = {archived: {$ne: true}};
   if (req.params.searchkey !== 'all' | req.params.searchvalue !== 'all') {
     search_term[req.params.searchkey] = req.params.searchvalue;
