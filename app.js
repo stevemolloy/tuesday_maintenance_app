@@ -41,6 +41,9 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use('/tablesorter', express.static(__dirname + '/node_modules/tablesorter/dist/js/'));
+
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 

@@ -19,6 +19,7 @@ block content
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
       include table_headings.pug
+        tbody
           each datum, index in linac_data
             - var d = "window.location.assign('/api/get/" + linac_ids[index] + "');"
             tr(onclick=d)
@@ -29,6 +30,7 @@ block content
     div.report_table
       h1 Interventions that require access to R1
       include table_headings.pug
+        tbody
           each datum, index in r1_data
             - var d = "window.location.assign('/api/get/" + r1_ids[index] + "');"
             tr(onclick=d)
@@ -39,6 +41,7 @@ block content
     div.report_table
       h1 Interventions that require access to R3
       include table_headings.pug
+        tbody
           each datum, index in r3_data
             - var d = "window.location.assign('/api/get/" + r3_ids[index] + "');"
             tr(onclick=d)
@@ -49,6 +52,7 @@ block content
     div.report_table
       h1 Interventions that require access to SPF
       include table_headings.pug
+        tbody
           each datum, index in spf_data
             - var d = "window.location.assign('/api/get/" + spf_ids[index] + "');"
             tr(onclick=d)
@@ -59,6 +63,7 @@ block content
     div.report_table
       h1 Other interventions
       include table_headings.pug
+        tbody
           each datum, index in other_data
             - var d = "window.location.assign('/api/get/" + other_ids[index] + "');"
             tr(onclick=d)
