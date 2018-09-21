@@ -286,6 +286,7 @@ function dataToPush(report) {
         report.starttime,
         report.endtime,
         report.approved ? 'Yes' : 'No',
+        report.done ? true : false,
         commentstr
   ];
 }
