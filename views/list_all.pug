@@ -24,8 +24,15 @@ block content
             - var d = "window.location.assign('/api/get/" + linac_ids[index] + "');"
             tr(onclick=d)
               td= index+1
-              each cell in datum
-                td= cell
+              each cell, cellindex in datum
+                if cellindex != 7
+                    td= cell
+                else
+                    td
+                        if cell
+                            input(type="checkbox", checked)
+                        else
+                            input(type="checkbox")
 
     div.report_table
       h1 Interventions that require access to R1
