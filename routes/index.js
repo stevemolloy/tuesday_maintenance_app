@@ -175,17 +175,24 @@ function taskForOther(report) {
 /* POST a new maintenance task */
 router.post('/new_maintenance_task', [
     sanitizeBody('*').trim().escape(),
-    body('location', 'Location must be defined').exists(),
+    body('location', 'You forgot to select a location').exists(),
     function(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log(req.body.comment);
             res.render('new_task', {
               title: 'MAX-IV Maintenance Tasks',
-              current_weeknumber: req.body.proposedweeknumber
+              current_weeknumber: req.body.proposedweeknumber,
+              firstname: req.body.first_name,
+              lastname: req.body.last_name,
+              responsible: req.body.fixer,
+              starttime: req.body.starttime,
+              endtime: req.body.endtime,
+              comment: req.body.comment,
+              error: errors.array()[0].msg
             });
             return;
         } else {
-          console.log('location: ' + req.body.location);
           const timestamp = Date.now();
           const fullname = req.body.first_name + " " + req.body.last_name;
           const fixer = req.body.fixer;
