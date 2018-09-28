@@ -21,6 +21,10 @@ block content
                 option(value=current_weeknumber+val, selected)= current_weeknumber+val
               else
                 option(value=current_weeknumber+val)= current_weeknumber+val
+          label Start and end time (XX:XX)
+            span.required *
+          input(type="text", name="starttime", value=report.starttime, placeholder="Start time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
+          input(type="text", name="endtime", value=report.endtime, placeholder="End time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
         li
           label Location affected:
           if report.where.includes('R11')
@@ -62,6 +66,12 @@ block content
           label Report
             span.required *
           textarea(name="comment", id="comment").field-long.field-textarea= report.task
+        li
+          label Done?  
+          if report.done
+            input(type="checkbox", name="done", value="done", checked)
+          else
+            input(type="checkbox", name="done", value="done")
         li
           button Save
     button(onClick="window.location.href='/api/get/"+report._id+"'") Cancel

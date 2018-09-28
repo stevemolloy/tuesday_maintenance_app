@@ -241,6 +241,9 @@ router.post('/edit_maintenance_task', function(req, res, next) {
   const fixer = req.body.fixer;
   const task = req.body.comment;
   const week_number = req.body.proposedweeknumber;
+  const done = req.body.done==='done' ? true : false;
+  const starttime = req.body.starttime;
+  const endtime = req.body.endtime;
   let where = '';
 
   if (Array.isArray(req.body.location)) {
@@ -260,7 +263,10 @@ router.post('/edit_maintenance_task', function(req, res, next) {
     fixer: fixer,
     where: where,
     task: task,
-    week_number: week_number
+    starttime: starttime,
+    endtime: endtime,
+    week_number: week_number,
+    done: done
   };
 
   MaintenanceTask.findByIdAndUpdate(
