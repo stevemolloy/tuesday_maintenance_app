@@ -157,7 +157,7 @@
 }
 
 .form-style-1 .field-textarea {
-  height: 300px;
+  height: 150px;
 }
 
 .form-style-1 input[type=submit], .form-style-1 input[type=button] {
@@ -235,4 +235,9 @@ textarea {
   width: 100%;
   box-sizing: border-box;
   padding-right: 10px;
+}
+
+.error {
+    background-color: #ffbcbc;
+    color: #a00;
 }

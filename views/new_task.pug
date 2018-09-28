@@ -5,14 +5,16 @@ block content
     form(action="/new_maintenance_task", method='post')#report_form
       ul.form-style-1
         li
+          h1.error= error
+        li
           label Your Name
             span.required *
-          input(type="text", name="first_name", placeholder="First", required).field-divided
-          input(type="text", name="last_name", placeholder="Last", required).field-divided
+          input(type="text", name="first_name", value=firstname, placeholder="First", required).field-divided
+          input(type="text", name="last_name", value=lastname, placeholder="Last", required).field-divided
         li
           label Responsible
             span.required *
-          input(type="text", name="fixer", placeholder="Person/team", required).field-long
+          input(type="text", name="fixer", value=responsible, placeholder="Person/team", required).field-long
         li
           label Proposed week number for this task:
             span.required *
@@ -25,8 +27,8 @@ block content
         li
           label Start and end time (XX:XX)
             span.required *
-          input(type="text", name="starttime", placeholder="Start time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
-          input(type="text", name="endtime", placeholder="End time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
+          input(type="text", name="starttime", value=starttime, placeholder="Start time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
+          input(type="text", name="endtime", value=endtime, placeholder="End time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", required)
         li
           label Location(s) affected:
             span.required *
@@ -53,7 +55,7 @@ block content
         li
           label Details
             span.required *
-          textarea(name="comment", id="comment", required).field-long.field-textarea
+          textarea(name="comment", id="comment", required).field-long.field-textarea= comment
         li
           button Submit
     button(onClick="window.history.go(-1)") Cancel
