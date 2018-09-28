@@ -25,14 +25,7 @@ block content
             tr(onclick=d)
               td= index+1
               each cell, cellindex in datum
-                if cellindex != 7
-                    td= cell
-                else
-                    td
-                        if cell
-                            input(type="checkbox", checked)
-                        else
-                            input(type="checkbox")
+                td= cell
 
     div.report_table
       h1 Interventions that require access to R1
