@@ -179,7 +179,6 @@ router.post('/new_maintenance_task', [
     function(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log(req.body.comment);
             res.render('new_task', {
               title: 'MAX-IV Maintenance Tasks',
               current_weeknumber: req.body.proposedweeknumber,
@@ -235,49 +234,70 @@ router.post('/new_maintenance_task', [
   ]
 );
 
-router.post('/edit_maintenance_task', function(req, res, next) {
-  const timestamp = Date.now();
-  const fullname = req.body.first_name + " " + req.body.last_name;
-  const fixer = req.body.fixer;
-  const task = req.body.comment;
-  const week_number = req.body.proposedweeknumber;
-  const done = req.body.done==='done' ? true : false;
-  const starttime = req.body.starttime;
-  const endtime = req.body.endtime;
-  let where = '';
+router.post('/edit_maintenance_task', [
+    sanitizeBody('*').trim().escape(),
+    body('location', 'You forgot to select a location').exists(),
+    body('location', 'You forgot to select a location').not().isEmpty(),
+    function(req, res, next) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.render('new_task', {
+            title: 'MAX-IV Maintenance Tasks',
+            current_weeknumber: req.body.proposedweeknumber,
+            firstname: req.body.first_name,
+            lastname: req.body.last_name,
+            responsible: req.body.fixer,
+            starttime: req.body.starttime,
+            endtime: req.body.endtime,
+            comment: req.body.comment,
+            error: errors.array()[0].msg
+          });
+          return;
+      } else {
+        const timestamp = Date.now();
+        const fullname = req.body.first_name + " " + req.body.last_name;
+        const fixer = req.body.fixer;
+        const task = req.body.comment;
+        const week_number = req.body.proposedweeknumber;
+        const done = req.body.done==='done' ? true : false;
+        const starttime = req.body.starttime;
+        const endtime = req.body.endtime;
+        let where = '';
 
-  if (Array.isArray(req.body.location)) {
-    for (let loc of req.body.location) {
-      where += loc + ',';
-    }
-    if (where.charAt(where.length - 1) == ',') {
-      where = where.slice(0, where.length - 1);
-    }
-  } else {
-    where = req.body.location;
-  }
+        if (Array.isArray(req.body.location)) {
+          for (let loc of req.body.location) {
+            where += loc + ',';
+          }
+          if (where.charAt(where.length - 1) == ',') {
+            where = where.slice(0, where.length - 1);
+          }
+        } else {
+          where = req.body.location;
+        }
 
-  const new_data = {
-    datetime: timestamp,
-    reporter: fullname,
-    fixer: fixer,
-    where: where,
-    task: task,
-    starttime: starttime,
-    endtime: endtime,
-    week_number: week_number,
-    done: done
-  };
+        const new_data = {
+          datetime: timestamp,
+          reporter: fullname,
+          fixer: fixer,
+          where: where,
+          task: task,
+          starttime: starttime,
+          endtime: endtime,
+          week_number: week_number,
+          done: done
+        };
 
-  MaintenanceTask.findByIdAndUpdate(
-    req.body.task_id,
-    new_data,
-    function(err, result) {
-      if (err) console.error(err);
-      res.redirect('/api/get/' + req.body.task_id);
-    }
-  );
-});
+        MaintenanceTask.findByIdAndUpdate(
+          req.body.task_id,
+          new_data,
+          function(err, result) {
+            if (err) console.error(err);
+            res.redirect('/api/get/' + req.body.task_id);
+          }
+        );
+      }
+    }]
+);
 
 function dataToPush(report) {
   commentstr = report.task;
