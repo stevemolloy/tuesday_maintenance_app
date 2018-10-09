@@ -10,6 +10,10 @@ block content
             li(onclick="if (confirm('Click OK if your name is Johan Thånell, and you wish to remove your approval for this task.')) location.href='/api/unapprove/"+report._id+"'") Remove task approval
           else
             li(onclick="if (confirm('Click OK if your name is Johan Thånell, and you wish to approve this task.')) location.href='/api/approve/"+report._id+"'") Approve task
+          if report.done
+            li(onclick="location.href='/api/mark_not_done/"+report._id+"'") Mark as not completed
+          else
+            li(onclick="location.href='/api/mark_done/"+report._id+"'") Mark task completed
           li(onclick="if (confirm('Click OK to remove this task')) location.href='/api/archive/"+report._id+"';") Remove task
         h2 Scheduled for week number:
           b= report.week_number
