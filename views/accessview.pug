@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	main
+		h1= "Week #" + week_number
+			table.faulttable
+				thead
+					tr
+						th Area
+						th Access starts
+						th Access ends
+				tbody
+					each report in reports
+						tr
+							td= report.where.toUpperCase()
+							if !report.starttime || !report.endtime
+								td X
+								td X
+							else
+								td report.starttime
+								td report.endtime

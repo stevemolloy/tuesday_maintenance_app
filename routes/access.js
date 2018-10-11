@@ -61,15 +61,21 @@ var getData = function(destination) {
                 if (!reports || reports.length===0) {
                     AccessDetails.insertMany(getDefaultDoc(req.params.week_number))
                         .then(function(docs){
-                            res.send(docs);
+                            res.render(destination, {
+                                title: 'MAX-IV Maintenance Day Accesses',
+                                week_number: req.params.week_number
+                            });
                         })
                         .catch(function(err) {
                             res.redirect('/bad-param');
                         });
                 }
                 else {
-                    console.log(destination);
-                    res.send(reports);
+                    res.render(destination, {
+                        title: 'MAX-IV Maintenance Day Accesses',
+                        week_number: req.params.week_number,
+                        reports: reports
+                    });
                 }
             });
         }
@@ -78,6 +84,6 @@ var getData = function(destination) {
 
 router.get('/edit/:week_number', getData('testing'));
 
-router.get('/:week_number', getData('get'));
+router.get('/:week_number', getData('accessview'));
 
 module.exports = router;
