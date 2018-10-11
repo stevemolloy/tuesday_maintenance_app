@@ -24,7 +24,7 @@ block content
             - var d = "window.location.assign('/api/get/" + linac_ids[index] + "');"
             tr(onclick=d)
               td= index+1
-              each cell in datum
+              each cell, cellindex in datum
                 td= cell
 
     div.report_table

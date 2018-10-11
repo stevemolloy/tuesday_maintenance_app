@@ -49,6 +49,28 @@ router.get('/approve/:faultId', function(req, res, next) {
   );
 });
 
+router.get('/mark_done/:faultId', function(req, res, next) {
+  MaintenanceTask.findByIdAndUpdate(
+    req.params.faultId,
+    {$set: {'done': true}},
+    function(err, result) {
+      if (err) console.error(err);
+      res.redirect('/');
+    }
+  );
+});
+
+router.get('/mark_not_done/:faultId', function(req, res, next) {
+  MaintenanceTask.findByIdAndUpdate(
+    req.params.faultId,
+    {$set: {'done': false}},
+    function(err, result) {
+      if (err) console.error(err);
+      res.redirect('/');
+    }
+  );
+});
+
 router.get('/unapprove/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,

@@ -13,7 +13,8 @@ var MaintenanceTaskSchema = new Schema(
     endtime: String,
     approved: Boolean,
     week_number: {type: Number},
-    archived: Boolean
+    archived: Boolean,
+    done: Boolean
   }
 );
 
