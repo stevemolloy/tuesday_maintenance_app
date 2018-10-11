@@ -38,7 +38,7 @@ router.get('/edit/:faultId', function(req, res, next) {
     });
 });
 
-router.get('/approve/:faultId', function(req, res, next) {
+router.post('/approve/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'approved': true}},
@@ -49,7 +49,7 @@ router.get('/approve/:faultId', function(req, res, next) {
   );
 });
 
-router.get('/mark_done/:faultId', function(req, res, next) {
+router.post('/mark_done/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'done': true}},
@@ -60,7 +60,7 @@ router.get('/mark_done/:faultId', function(req, res, next) {
   );
 });
 
-router.get('/mark_not_done/:faultId', function(req, res, next) {
+router.post('/mark_not_done/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'done': false}},
@@ -71,7 +71,7 @@ router.get('/mark_not_done/:faultId', function(req, res, next) {
   );
 });
 
-router.get('/unapprove/:faultId', function(req, res, next) {
+router.post('/unapprove/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'approved': false}},
@@ -82,7 +82,7 @@ router.get('/unapprove/:faultId', function(req, res, next) {
   );
 });
 
-router.get('/archive/:faultId', function(req, res, next) {
+router.post('/archive/:faultId', function(req, res, next) {
   MaintenanceTask.findByIdAndUpdate(
     req.params.faultId,
     {$set: {'archived': true}},
