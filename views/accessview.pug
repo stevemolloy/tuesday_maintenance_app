@@ -6,16 +6,16 @@ block content
 			table.faulttable
 				thead
 					tr
-						th Area
-						th Access starts
-						th Access ends
+						th(align="center") Area
+						th(align="center") Access starts
+						th(align="center") Access ends
 				tbody
 					each report in reports
 						tr
 							td= report.where.toUpperCase()
 							if !report.starttime || !report.endtime
-								td X
-								td X
+								td(align="center") -
+								td(align="center") -
 							else
-								td report.starttime
-								td report.endtime
+								td(align="center") report.starttime
+								td(align="center") report.endtime

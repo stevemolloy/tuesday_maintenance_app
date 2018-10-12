@@ -82,7 +82,7 @@ var getData = function(destination) {
     }
 }
 
-router.get('/edit/:week_number', getData('testing'));
+router.get('/edit/:week_number', getData('accessedit'));
 
 router.get('/:week_number', getData('accessview'));
 

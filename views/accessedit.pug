@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    main
+        h1= "Week #" + week_number
+        table.faulttable
+            thead
+                tr
+                    th(align="center") Area
+                    th(align="center") Access starts
+                    th(align="center") Access ends
+            tbody
+                each report in reports
+                    tr
+                        td= report.where.toUpperCase()
+                        if !report.starttime || !report.endtime
+                            td(align="center")
+                                input(type="text", placeholder="Enter a start time")
+                            td(align="center")
+                                input(type="text", placeholder="Enter an end time")
+                        else
+                            td(align="center")
+                                input(type="text", placeholder=report.starttime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                            td(align="center")
+                                input(type="text", placeholder=report.endtime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
