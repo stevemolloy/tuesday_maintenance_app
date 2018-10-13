@@ -53,31 +53,34 @@ var getData = function(destination) {
         }
         else {
             AccessDetails
-            .find({
-                'week_number': req.params.week_number
-            })
-            .exec(function(err, reports) {
-                if (err) return console.error(err);
-                if (!reports || reports.length===0) {
-                    AccessDetails.insertMany(getDefaultDoc(req.params.week_number))
-                        .then(function(docs){
-                            res.render(destination, {
-                                title: 'MAX-IV Maintenance Day Accesses',
-                                week_number: req.params.week_number
+                .find({
+                    'week_number': req.params.week_number
+                })
+                .sort({
+                    where: 1
+                })
+                .exec(function(err, reports) {
+                    if (err) return console.error(err);
+                    if (!reports || reports.length===0) {
+                        AccessDetails.insertMany(getDefaultDoc(req.params.week_number))
+                            .then(function(docs){
+                                res.render(destination, {
+                                    title: 'MAX-IV Maintenance Day Accesses',
+                                    week_number: req.params.week_number
+                                });
+                            })
+                            .catch(function(err) {
+                                res.redirect('/bad-param');
                             });
-                        })
-                        .catch(function(err) {
-                            res.redirect('/bad-param');
+                    }
+                    else {
+                        res.render(destination, {
+                            title: 'MAX-IV Maintenance Day Accesses',
+                            week_number: req.params.week_number,
+                            reports: reports
                         });
-                }
-                else {
-                    res.render(destination, {
-                        title: 'MAX-IV Maintenance Day Accesses',
-                        week_number: req.params.week_number,
-                        reports: reports
-                    });
-                }
-            });
+                    }
+                });
         }
     }
 }
@@ -94,11 +97,25 @@ router.get('/update/:phase/:id/:time', function(req, res, next) {
         .exec(function(err, report) {
             if (err) return console.error(err);
             if (req.params.phase==="start") {
-                res.send('start: ' + req.params.time);
+                AccessDetails
+                    .update(
+                        { _id: report.id },
+                        { $set: { starttime: req.params.time }},
+                        function(err, raw) {
+                            if (err) return console.error(err);
+                            res.redirect('/access/edit/' + report.week_number)
+                        });
             } else if (req.params.phase==="end") {
-                res.send('end: ' + req.params.time);
+                AccessDetails
+                    .update(
+                        { _id: report.id },
+                        { $set: { endtime: req.params.time }},
+                        function(err, raw) {
+                            if (err) return console.error(err);
+                            res.redirect('/access/edit/' + report.week_number)
+                        });
             } else {
-                res.redirect('/edit/report.week_number');
+                res.redirect('/access/edit/report.week_number');
             }
         });
 });
