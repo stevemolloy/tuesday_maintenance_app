@@ -86,4 +86,21 @@ router.get('/edit/:week_number', getData('accessedit'));
 
 router.get('/:week_number', getData('accessview'));
 
+router.get('/update/:phase/:id/:time', function(req, res, next) {
+    AccessDetails
+        .findOne({
+            '_id': req.params.id
+        })
+        .exec(function(err, report) {
+            if (err) return console.error(err);
+            if (req.params.phase==="start") {
+                res.send('start: ' + req.params.time);
+            } else if (req.params.phase==="end") {
+                res.send('end: ' + req.params.time);
+            } else {
+                res.redirect('/edit/report.week_number');
+            }
+        });
+});
+
 module.exports = router;

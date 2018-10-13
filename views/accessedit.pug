@@ -15,11 +15,11 @@ block content
                         td= report.where.toUpperCase()
                         if !report.starttime || !report.endtime
                             td(align="center")
-                                input(type="text", placeholder="Enter a start time")
+                                input(type="text", placeholder="Enter a start time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", onchange="window.location.href='/access/update/start/" + report._id + "/' + this.value")
                             td(align="center")
-                                input(type="text", placeholder="Enter an end time")
+                                input(type="text", placeholder="Enter an end time", pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", onchange="window.location.href='/access/update/end/" + report._id + "/' + this.value")
                         else
                             td(align="center")
-                                input(type="text", placeholder=report.starttime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                input(type="text", placeholder=report.starttime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", onchange="window.location.href='/access/update/start/" + report._id + "/' + this.value")
                             td(align="center")
-                                input(type="text", placeholder=report.endtime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                input(type="text", placeholder=report.endtime, pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]", onchange="window.location.href='/access/update/end/" + report._id + "/' + this.value")

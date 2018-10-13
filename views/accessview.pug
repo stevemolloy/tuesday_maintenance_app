@@ -3,19 +3,19 @@ extends layout
 block content
 	main
 		h1= "Week #" + week_number
-			table.faulttable
-				thead
+		table.faulttable
+			thead
+				tr
+					th(align="center") Area
+					th(align="center") Access starts
+					th(align="center") Access ends
+			tbody
+				each report in reports
 					tr
-						th(align="center") Area
-						th(align="center") Access starts
-						th(align="center") Access ends
-				tbody
-					each report in reports
-						tr
-							td= report.where.toUpperCase()
-							if !report.starttime || !report.endtime
-								td(align="center") -
-								td(align="center") -
-							else
-								td(align="center") report.starttime
-								td(align="center") report.endtime
+						td= report.where.toUpperCase()
+						if !report.starttime || !report.endtime
+							td(align="center") -
+							td(align="center") -
+						else
+							td(align="center") report.starttime
+							td(align="center") report.endtime
