@@ -61,12 +61,15 @@ var getData = function(destination) {
                 })
                 .exec(function(err, reports) {
                     if (err) return console.error(err);
-                    if (!reports || reports.length===0) {
-                        AccessDetails.insertMany(getDefaultDoc(req.params.week_number))
+                    if (!Array.isArray(reports) || !reports.length) {
+                        AccessDetails
+                            .insertMany(getDefaultDoc(req.params.week_number))
                             .then(function(docs){
+                                console.log('Rendering');
                                 res.render(destination, {
                                     title: 'MAX-IV Maintenance Day Accesses',
-                                    week_number: req.params.week_number
+                                    week_number: req.params.week_number,
+                                    reports: docs
                                 });
                             })
                             .catch(function(err) {
