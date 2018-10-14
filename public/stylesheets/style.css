@@ -241,3 +241,9 @@ textarea {
     background-color: #ffbcbc;
     color: #a00;
 }
+
+#centeredlink{
+    text-align: center;
+    display: block;
+    margin: 10px 0 0 0;
+}
