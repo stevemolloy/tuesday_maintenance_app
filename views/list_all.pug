@@ -17,6 +17,9 @@ block content
           else
             option(onclick=d, value='week_number/'+week_number)= "Week number: " + week_number
 
+    if selected_week!="all"
+      a(href="/access/" + selected_week, id="centeredlink") View machine access times
+
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31
       include table_headings.pug

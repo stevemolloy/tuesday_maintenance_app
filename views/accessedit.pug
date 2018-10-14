@@ -3,6 +3,8 @@ extends layout
 block content
     main
         h1= "Week #" + week_number
+        a(href="/summary/week_number/" + week_number, id="centeredlink") View tasks
+        a(href="/access/" + week_number, id="centeredlink") View access times
         table.faulttable
             thead
                 tr
