@@ -18,7 +18,23 @@ block content
             option(onclick=d, value='week_number/'+week_number)= "Week number: " + week_number
 
     if selected_week!="all"
-      a(href="/access/" + selected_week, id="centeredlink") View machine access times
+      a(href="/access/edit/" + week_number, id="centeredlink") Edit access times
+      table.faulttable
+          thead
+              tr
+                  th(align="center") Area
+                  th(align="center") Access starts
+                  th(align="center") Access ends
+          tbody
+              each report in reports
+                  tr
+                      td= report.where.toUpperCase()
+                      if !report.starttime || !report.endtime
+                          td(align="center") -
+                          td(align="center") -
+                      else
+                          td(align="center")= report.starttime
+                          td(align="center")= report.endtime
 
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31

@@ -1,4 +1,5 @@
 const MaintenanceTask = require('../models/maintenanceTask').MaintenanceTask;
+const AccessDetails = require('../models/access').AccessDetails;
 const currentWeekNumber = require('current-week-number');
 
 const express = require('express');
@@ -7,95 +8,207 @@ const async = require('async');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+function isInteger(value) {
+  return /^\d+$/.test(value);
+}
+
+function getDefaultDoc(week_number) {
+    return [
+        {
+            datetime: Date.now(),
+            where: 'r11',
+            week_number: week_number
+        },
+        {
+            datetime: Date.now(),
+            where: 'r12',
+            week_number: week_number
+        },
+        {
+            datetime: Date.now(),
+            where: 'r31',
+            week_number: week_number
+        },
+        {
+            datetime: Date.now(),
+            where: 'r3235',
+            week_number: week_number
+        },
+        {
+            datetime: Date.now(),
+            where: 'linac',
+            week_number: week_number
+        },
+        {
+            datetime: Date.now(),
+            where: 'spf',
+            week_number: week_number
+        }
+    ];
+}
+
+function weekNumParamIsGood(week_number) {
+    return !isInteger(week_number) || parseInt(week_number)>52
+}
+
 router.get('/new_task', function(req, res, next) {
-  let week_number = currentWeekNumber();
-  const d = new Date().getDay();
-  if (d >= 4) {
-    week_number += 2;
-  } else {
-    week_number += 1;
-  }
-  res.render('new_task', {
-    title: 'MAX-IV Maintenance Tasks',
-    current_weeknumber: week_number
-  });
+    let week_number = currentWeekNumber();
+    const d = new Date().getDay();
+    if (d >= 4) {
+      week_number += 2;
+    } else {
+      week_number += 1;
+    }
+    res.render('new_task', {
+      title: 'MAX-IV Maintenance Tasks',
+      current_weeknumber: week_number
+    });
 });
 
 router.get('/', function(req, res, next) {
-  res.redirect('/summary/all/all');
+    res.redirect('/summary/all/all');
 });
 
 router.get('/summary/:val', function(req, res, next) {
-  res.redirect('/summary/week_number/' + req.params.val);
+    res.redirect('/summary/week_number/' + req.params.val);
 });
 
 router.get('/summary/:key/:value', function(req, res, next) {
-  const search_term = {archived: {$ne: true}};
-  if (req.params.key !== 'all' | req.params.value !== 'all') {
-    search_term[req.params.key] = req.params.value;
-  }
-
-  var functionStack = [];
-  functionStack.push((callback) => {
-    MaintenanceTask
-      .find({archived: {$ne: true}})
-      .sort({
-        week_number: 1
-      })
-      .exec((err, docs) => {
-        if (err) throw callback(err);
-        var week_numbers = [];
-        for (let i = 0; i < docs.length; i++) {
-          var week_number = docs[i].week_number;
-          if (!week_numbers.includes(week_number)) {
-            week_numbers.push(week_number);
-          }
-        }
-        callback(null, week_numbers);
-      });
-  });
-
-  functionStack.push((callback) => {
-    MaintenanceTask
-      .find(search_term)
-      .sort({
-        week_number: -1
-      })
-      .exec(function(err, reports) {
-        if (err) return console.error(err);
-        data = generate_data(reports);
-        callback(null, data);
-      });
-  });
-
-  async.parallel(
-    functionStack,
-    (err, data) => {
-      if (err) console.log(error);
-      var page_title;
-      if (req.params.key === 'archived' & req.params.value === 'true') {
-        page_title = 'MAX IV: Deleted Tasks';
-      }
-      else {
-        page_title = 'MAX-IV: Maintenance Tasks';
-      }
-      res.render('list_all', {
-        title: page_title,
-        selected_week: req.params.value,
-        linac_data: data[1].linac_data,
-        linac_ids: data[1].linac_ids,
-        other_data: data[1].other_data,
-        other_ids: data[1].other_ids,
-        r3_data: data[1].r3_data,
-        r3_ids: data[1].r3_ids,
-        spf_data: data[1].spf_data,
-        spf_ids: data[1].spf_ids,
-        r1_data: data[1].r1_data,
-        r1_ids: data[1].r1_ids,
-        week_numbers: data[0]
-      });
+    const search_term = {archived: {$ne: true}};
+    if (req.params.key !== 'all' | req.params.value !== 'all') {
+        search_term[req.params.key] = req.params.value;
     }
-  );
+
+    // function(callback) {
+    //     return function(req, res, next) {
+    //         AccessDetails
+    //             .find({
+    //                 'week_number': req.params.week_number
+    //             })
+    //             .sort({
+    //                 where: 1
+    //             })
+    //             .exec(function(err, reports) {
+    //                 if (err) return console.error(err);
+    //                 var reports = [];
+    //                 if (!Array.isArray(reports) || !reports.length) {
+    //                     AccessDetails
+    //                         .insertMany(getDefaultDoc(req.params.week_number))
+    //                         .then(function(docs){
+    //                             for (var i; i<docs.length; i++) {
+    //                                 reports.push(docs[i])
+    //                             }
+    //                             callback(null, reports);
+    //                         })
+    //                         .catch(function(err) {
+    //                             res.redirect('/bad-param');
+    //                         });
+    //                 }
+    //                 else {
+    //                     for (var i; i<docs.length; i++) {
+    //                         reports.push(docs[i])
+    //                     }
+    //                     callback(null, reports);
+    //                 }
+    //             });
+    //     }
+    // }
+
+    var functionStack = [];
+    functionStack.push((callback) => {
+        MaintenanceTask
+            .find({archived: {$ne: true}})
+            .sort({
+                week_number: 1
+            })
+            .exec((err, docs) => {
+                if (err) throw callback(err);
+                var week_numbers = [];
+                for (let i = 0; i < docs.length; i++) {
+                    var week_number = docs[i].week_number;
+                    if (!week_numbers.includes(week_number)) {
+                      week_numbers.push(week_number);
+                    }
+                }
+                callback(null, week_numbers);
+            });
+    });
+
+    functionStack.push((callback) => {
+      MaintenanceTask
+        .find(search_term)
+        .sort({
+            week_number: -1
+        })
+        .exec(function(err, reports) {
+            if (err) return console.error(err);
+            data = generate_data(reports);
+            callback(null, data);
+        });
+    });
+
+    functionStack.push(function(callback) {
+        AccessDetails
+            .find({
+                'week_number': req.params.value
+            })
+            .sort({
+                where: 1
+            })
+            .exec(function(err, reports) {
+                if (err) return console.error(err);
+                var replies = [];
+                if (!Array.isArray(reports) || !reports.length) {
+                    AccessDetails
+                        .insertMany(getDefaultDoc(req.params.week_number))
+                        .then(function(docs){
+                            for (var i; i<docs.length; i++) {
+                                replies.push(docs[i])
+                            }
+                            callback(null, reports);
+                        })
+                        .catch(function(err) {
+                            res.redirect('/bad-param');
+                        });
+                }
+                else {
+                    for (var i; i<reports.length; i++) {
+                        replies.push(reports[i])
+                    }
+                    callback(null, reports);
+                }
+            });
+        })
+
+    async.parallel(
+      functionStack,
+      (err, data) => {
+        if (err) console.log(error);
+        var page_title;
+        if (req.params.key === 'archived' & req.params.value === 'true') {
+            page_title = 'MAX IV: Deleted Tasks';
+        }
+        else {
+            page_title = 'MAX-IV: Maintenance Tasks';
+        }
+        res.render('list_all', {
+            title: page_title,
+            selected_week: req.params.value,
+            linac_data: data[1].linac_data,
+            linac_ids: data[1].linac_ids,
+            other_data: data[1].other_data,
+            other_ids: data[1].other_ids,
+            r3_data: data[1].r3_data,
+            r3_ids: data[1].r3_ids,
+            spf_data: data[1].spf_data,
+            spf_ids: data[1].spf_ids,
+            r1_data: data[1].r1_data,
+            r1_ids: data[1].r1_ids,
+            week_numbers: data[0],
+            reports: data[2]
+        });
+      }
+    );
 });
 
 function generate_data(reports) {
