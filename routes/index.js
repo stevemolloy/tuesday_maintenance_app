@@ -79,41 +79,6 @@ router.get('/summary/:key/:value', function(req, res, next) {
         search_term[req.params.key] = req.params.value;
     }
 
-    // function(callback) {
-    //     return function(req, res, next) {
-    //         AccessDetails
-    //             .find({
-    //                 'week_number': req.params.week_number
-    //             })
-    //             .sort({
-    //                 where: 1
-    //             })
-    //             .exec(function(err, reports) {
-    //                 if (err) return console.error(err);
-    //                 var reports = [];
-    //                 if (!Array.isArray(reports) || !reports.length) {
-    //                     AccessDetails
-    //                         .insertMany(getDefaultDoc(req.params.week_number))
-    //                         .then(function(docs){
-    //                             for (var i; i<docs.length; i++) {
-    //                                 reports.push(docs[i])
-    //                             }
-    //                             callback(null, reports);
-    //                         })
-    //                         .catch(function(err) {
-    //                             res.redirect('/bad-param');
-    //                         });
-    //                 }
-    //                 else {
-    //                     for (var i; i<docs.length; i++) {
-    //                         reports.push(docs[i])
-    //                     }
-    //                     callback(null, reports);
-    //                 }
-    //             });
-    //     }
-    // }
-
     var functionStack = [];
     functionStack.push((callback) => {
         MaintenanceTask
@@ -135,55 +100,59 @@ router.get('/summary/:key/:value', function(req, res, next) {
     });
 
     functionStack.push((callback) => {
-      MaintenanceTask
-        .find(search_term)
-        .sort({
-            week_number: -1
-        })
-        .exec(function(err, reports) {
-            if (err) return console.error(err);
-            data = generate_data(reports);
-            callback(null, data);
-        });
+        MaintenanceTask
+          .find(search_term)
+          .sort({
+              week_number: -1
+          })
+          .exec(function(err, reports) {
+              if (err) return console.error(err);
+              data = generate_data(reports);
+              callback(null, data);
+          });
     });
 
     functionStack.push(function(callback) {
-        AccessDetails
-            .find({
-                'week_number': req.params.value
-            })
-            .sort({
-                where: 1
-            })
-            .exec(function(err, reports) {
-                if (err) return console.error(err);
-                var replies = [];
-                if (!Array.isArray(reports) || !reports.length) {
-                    AccessDetails
-                        .insertMany(getDefaultDoc(req.params.week_number))
-                        .then(function(docs){
-                            for (var i; i<docs.length; i++) {
-                                replies.push(docs[i])
-                            }
-                            callback(null, reports);
-                        })
-                        .catch(function(err) {
-                            res.redirect('/bad-param');
-                        });
-                }
-                else {
-                    for (var i; i<reports.length; i++) {
-                        replies.push(reports[i])
+        if (req.params.value === "all") {
+            callback(null, []);
+        } else {
+            AccessDetails
+                .find({
+                    'week_number': req.params.value
+                })
+                .sort({
+                    where: 1
+                })
+                .exec(function(err, reports) {
+                    if (err) return console.error(err);
+                    var replies = [];
+                    if (!Array.isArray(reports) || !reports.length) {
+                        AccessDetails
+                            .insertMany(getDefaultDoc(req.params.week_number))
+                            .then(function(docs){
+                                for (var i=0; i<docs.length; i++) {
+                                    replies.push(docs[i])
+                                }
+                                callback(null, replies);
+                            })
+                            .catch(function(err) {
+                                res.redirect('/bad-param');
+                            });
                     }
-                    callback(null, reports);
-                }
-            });
-        })
+                    else {
+                        for (var i=0; i<reports.length; i++) {
+                            replies.push(reports[i])
+                        }
+                        callback(null, replies);
+                    }
+                });
+        }
+        });
 
     async.parallel(
       functionStack,
       (err, data) => {
-        if (err) console.log(error);
+        if (err) console.error(error);
         var page_title;
         if (req.params.key === 'archived' & req.params.value === 'true') {
             page_title = 'MAX IV: Deleted Tasks';
@@ -338,7 +307,7 @@ router.post('/new_maintenance_task', [
           });
           task_object.save(function(err) {
             if (err) {
-              console.log(err);
+              console.error(err);
             }
             res.redirect('/');
           });
