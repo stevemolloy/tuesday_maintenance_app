@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    main
+        h1= "Week #" + week_number
+        a(href="/summary/week_number/" + week_number, id="centeredlink") View tasks
+        a(href="/access/edit/" + week_number, id="centeredlink") Edit access times
+        table.faulttable
+            thead
+                tr
+                    th(align="center") Area
+                    th(align="center") Access starts
+                    th(align="center") Access ends
+            tbody
+                each report in reports
+                    tr
+                        td= report.where.toUpperCase()
+                        if !report.starttime || !report.endtime
+                            td(align="center") -
+                            td(align="center") -
+                        else
+                            td(align="center")= report.starttime
+                            td(align="center")= report.endtime
