@@ -4,73 +4,66 @@ block content
     main
         h1= "Week #" + week_number
         a(href="/summary/week_number/" + week_number, id="centeredlink") View tasks
-        table.faulttable
-            thead
-                tr
-                    th(align="center") Area
-                    th(align="center") Access starts
-                    th(align="center") Access ends
-            tbody
-                each report in reports
+        form(action="/access/update" method="post")
+            input(type="hidden", value=week_number, name="week_number")
+            table.faulttable
+                thead
                     tr
-                        td= report.where.toUpperCase()
-                        if !report.starttime && !report.endtime
-                            td(align="center")
-                                input(type="text",
-                                    placeholder="Enter a start time",
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='/access/update/start/" +
-                                        report._id + "/' + this.value")
-                            td(align="center")
-                                input(type="text",
-                                    placeholder="Enter an end time",
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='/access/update/end/" +
-                                        report._id + "/' + this.value")
+                        th(align="center") Area
+                        th(align="center") Access starts
+                        th(align="center") Access ends
+                tbody
+                    each report in reports
+                        tr
+                            td= report.where.toUpperCase()
+                                input(type="hidden",
+                                    value=report.id,
+                                    name=report.where+"id")
+                            if !report.starttime && !report.endtime
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"start",
+                                        placeholder="Enter a start time",
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"end",
+                                        placeholder="Enter an end time",
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
 
-                        else if !report.starttime && report.endtime
-                            td(align="center")
-                                input(type="text",
-                                    placeholder="Enter a start time",
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='/access/update/start/" +
-                                        report._id + "/' + this.value")
-                            td(align="center")
-                                input(type="text",
-                                    placeholder=report.endtime,
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='" +
-                                        "/access/update/end/" +
-                                        report._id + "/' + this.value")
+                            else if !report.starttime && report.endtime
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"start",
+                                        placeholder="Enter a start time",
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"end",
+                                        value=report.endtime,
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
 
-                        else if report.starttime && !report.endtime
-                            td(align="center")
-                                input(type="text",
-                                    placeholder=report.starttime,
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='" +
-                                        "/access/update/start/" +
-                                        report._id + "/' + this.value")
-                            td(align="center")
-                                input(type="text",
-                                    placeholder="Enter an end time",
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='" +
-                                        "/access/update/end/" +
-                                        report._id + "/' + this.value")
-                        else
-                            td(align="center")
-                                input(type="text",
-                                    placeholder=report.starttime,
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='"
-                                        + "/access/update/start/" +
-                                        report._id + "/' + this.value")
-                            td(align="center")
-                                input(type="text",
-                                    placeholder=report.endtime,
-                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]",
-                                    onchange="window.location.href='" +
-                                        "/access/update/end/" +
-                                        report._id + "/' + this.value")
+                            else if report.starttime && !report.endtime
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"start",
+                                        value=report.starttime,
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"end",
+                                        placeholder="Enter an end time",
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                            else
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"start",
+                                        value=report.starttime,
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+                                td(align="center")
+                                    input(type="text",
+                                        name=report.where+"end",
+                                        value=report.endtime,
+                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]")
+            input(type="submit")
 

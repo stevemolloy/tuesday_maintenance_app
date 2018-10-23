@@ -2,6 +2,7 @@ var AccessDetails = require('../models/access').AccessDetails;
 var currentWeekNumber = require('current-week-number');
 var express = require('express');
 var router = express.Router();
+var async = require('async');
 
 function isInteger(value) {
   return /^\d+$/.test(value);
@@ -92,35 +93,100 @@ router.get('/edit/:week_number', getData('accessedit'));
 
 router.get('/:week_number', getData('accessview'));
 
-router.get('/update/:phase/:id/:time', function(req, res, next) {
-    AccessDetails
-        .findOne({
-            '_id': req.params.id
+router.post('/update/', function(req, res, next) {
+    var functionStack = [];
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.linacid,
+                {
+                    '$set': {
+                        starttime: req.body.linacstart,
+                        endtime: req.body.linacend
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.r11id,
+                {
+                    '$set': {
+                        starttime: req.body.r11start,
+                        endtime: req.body.r11end
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.r12id,
+                {
+                    '$set': {
+                        starttime: req.body.r12start,
+                        endtime: req.body.r12end
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.r31id,
+                {
+                    '$set': {
+                        starttime: req.body.r31start,
+                        endtime: req.body.r31end
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.r3235id,
+                {
+                    '$set': {
+                        starttime: req.body.r3235start,
+                        endtime: req.body.r3235end
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+    functionStack.push(function(callback) {
+        AccessDetails
+            .findByIdAndUpdate(req.body.rspfid,
+                {
+                    '$set': {
+                        starttime: req.body.rspfstart,
+                        endtime: req.body.rspfend
+                    }
+                })
+            .exec(function(err, docs) {
+                if (err) throw callback(err)
+                callback(null, null)
+            });
+    });
+
+    async.parallel(
+        functionStack,
+        function(err, data) {
+            if (err) console.error(error);
+            console.log('Hello!');
+            res.redirect('/summary/week_number/' + req.body.week_number);
         })
-        .exec(function(err, report) {
-            if (err) return console.error(err);
-            if (req.params.phase==="start") {
-                AccessDetails
-                    .update(
-                        { _id: report.id },
-                        { $set: { starttime: req.params.time }},
-                        function(err, raw) {
-                            if (err) return console.error(err);
-                            res.redirect('/access/edit/' + report.week_number)
-                        });
-            } else if (req.params.phase==="end") {
-                AccessDetails
-                    .update(
-                        { _id: report.id },
-                        { $set: { endtime: req.params.time }},
-                        function(err, raw) {
-                            if (err) return console.error(err);
-                            res.redirect('/access/edit/' + report.week_number)
-                        });
-            } else {
-                res.redirect('/access/edit/report.week_number');
-            }
-        });
 });
 
 module.exports = router;
