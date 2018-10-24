@@ -167,11 +167,11 @@ router.post('/update/', function(req, res, next) {
     });
     functionStack.push(function(callback) {
         AccessDetails
-            .findByIdAndUpdate(req.body.rspfid,
+            .findByIdAndUpdate(req.body.spfid,
                 {
                     '$set': {
-                        starttime: req.body.rspfstart,
-                        endtime: req.body.rspfend
+                        starttime: req.body.spfstart,
+                        endtime: req.body.spfend
                     }
                 })
             .exec(function(err, docs) {
