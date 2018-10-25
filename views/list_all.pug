@@ -30,8 +30,8 @@ block content
                   tr
                       td= report.where.toUpperCase()
                       if !report.starttime || !report.endtime
-                          td(align="center") -
-                          td(align="center") -
+                          td(align="center") No access
+                          td(align="center") No access
                       else
                           td(align="center")= report.starttime
                           td(align="center")= report.endtime
