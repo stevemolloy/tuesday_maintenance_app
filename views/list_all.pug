@@ -29,8 +29,14 @@ block content
               each report in reports
                   tr
                       td= report.where.toUpperCase()
-                      if !report.starttime || !report.endtime
+                      if !report.starttime && !report.endtime
                           td(align="center") No access
+                          td(align="center") No access
+                      else if !report.starttime && report.endtime
+                          td(align="center") No access
+                          td(align="center")= report.endtime
+                      else if report.starttime && !report.endtime
+                          td(align="center")= report.starttime
                           td(align="center") No access
                       else
                           td(align="center")= report.starttime
