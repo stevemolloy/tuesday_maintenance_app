@@ -18,6 +18,12 @@ block content
                         if !report.starttime || !report.endtime
                             td(align="center") -
                             td(align="center") -
+                        else if !report.starttime || report.endtime
+                            td(align="center") -
+                            td(align="center") report.endtime
+                        else if report.starttime || !report.endtime
+                            td(align="center") report.starttime
+                            td(align="center") -
                         else
                             td(align="center")= report.starttime
                             td(align="center")= report.endtime

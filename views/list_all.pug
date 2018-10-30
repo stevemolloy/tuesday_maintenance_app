@@ -18,7 +18,7 @@ block content
             option(onclick=d, value='week_number/'+week_number)= "Week number: " + week_number
 
     if selected_week!="all"
-      // a(href="/access/edit/" + selected_week, id="centeredlink") Edit access times
+      a(href="/access/edit/" + selected_week, id="centeredlink") Edit access times
       table.faulttable
           thead
               tr
@@ -29,8 +29,14 @@ block content
               each report in reports
                   tr
                       td= report.where.toUpperCase()
-                      if !report.starttime || !report.endtime
+                      if !report.starttime && !report.endtime
                           td(align="center") No access
+                          td(align="center") No access
+                      else if !report.starttime && report.endtime
+                          td(align="center") No access
+                          td(align="center")= report.endtime
+                      else if report.starttime && !report.endtime
+                          td(align="center")= report.starttime
                           td(align="center") No access
                       else
                           td(align="center")= report.starttime

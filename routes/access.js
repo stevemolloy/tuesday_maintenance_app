@@ -2,6 +2,9 @@ var AccessDetails = require('../models/access').AccessDetails;
 var currentWeekNumber = require('current-week-number');
 var express = require('express');
 var router = express.Router();
+var async = require('async');
+var { body,validationResult } = require('express-validator/check');
+var { sanitizeBody } = require('express-validator/filter');
 
 function isInteger(value) {
   return /^\d+$/.test(value);
@@ -92,35 +95,100 @@ router.get('/edit/:week_number', getData('accessedit'));
 
 router.get('/:week_number', getData('accessview'));
 
-router.get('/update/:phase/:id/:time', function(req, res, next) {
-    AccessDetails
-        .findOne({
-            '_id': req.params.id
-        })
-        .exec(function(err, report) {
-            if (err) return console.error(err);
-            if (req.params.phase==="start") {
-                AccessDetails
-                    .update(
-                        { _id: report.id },
-                        { $set: { starttime: req.params.time }},
-                        function(err, raw) {
-                            if (err) return console.error(err);
-                            res.redirect('/access/edit/' + report.week_number)
-                        });
-            } else if (req.params.phase==="end") {
-                AccessDetails
-                    .update(
-                        { _id: report.id },
-                        { $set: { endtime: req.params.time }},
-                        function(err, raw) {
-                            if (err) return console.error(err);
-                            res.redirect('/access/edit/' + report.week_number)
-                        });
-            } else {
-                res.redirect('/access/edit/report.week_number');
-            }
+function timeChecker(time) {
+    console.log(!time.match("([01]?[0-9]|2[0-3]):[0-5][0-9]"));
+    if (time === '') {
+        return true;
+    } else if (!time.match("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+        throw new Error("The input must be a time");
+    } else {
+        return true;
+    }
+}
+
+router.post('/update/', [
+    sanitizeBody('*').trim().escape(),
+    body('r11start').optional().custom(timeChecker),
+    body('r11end').optional().custom(timeChecker),
+    body('r12start').optional().custom(timeChecker),
+    body('r12end').optional().custom(timeChecker),
+    body('r31start').optional().custom(timeChecker),
+    body('r31end').optional().custom(timeChecker),
+    body('r3235start').optional().custom(timeChecker),
+    body('r3235end').optional().custom(timeChecker),
+    body('linacstart').optional().custom(timeChecker),
+    body('linacend').optional().custom(timeChecker),
+    body('spfstart').optional().custom(timeChecker),
+    body('spfend').optional().custom(timeChecker),
+    function(req, res, next) {
+        var errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors.array());
+            return res.redirect('/access/edit/' + req.body.week_number);
+        }
+        var functionStack = [];
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.linacid,
+                    {'$set': {starttime: req.body.linacstart, endtime: req.body.linacend}})
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
         });
-});
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.r11id,
+                    {'$set': {starttime: req.body.r11start, endtime: req.body.r11end } })
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
+        });
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.r12id,
+                    { '$set': { starttime: req.body.r12start, endtime: req.body.r12end } })
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
+        });
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.r31id,
+                    { '$set': { starttime: req.body.r31start, endtime: req.body.r31end } })
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
+        });
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.r3235id,
+                    { '$set': { starttime: req.body.r3235start, endtime: req.body.r3235end } })
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
+        });
+        functionStack.push(function(callback) {
+            AccessDetails
+                .findByIdAndUpdate(req.body.spfid,
+                    { '$set': { starttime: req.body.spfstart, endtime: req.body.spfend } })
+                .exec(function(err, docs) {
+                    if (err) throw callback(err);
+                    callback(null, null);
+                });
+        });
+
+        async.parallel(
+            functionStack,
+            function(err, data) {
+                if (err) console.error(error);
+                res.redirect('/summary/week_number/' + req.body.week_number);
+            })
+    }
+]);
 
 module.exports = router;
