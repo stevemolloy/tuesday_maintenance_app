@@ -1,6 +1,7 @@
 const MaintenanceTask = require('../models/maintenanceTask').MaintenanceTask;
 const AccessDetails = require('../models/access').AccessDetails;
 const currentWeekNumber = require('current-week-number');
+const he = require('he');
 
 const express = require('express');
 const router = express.Router();
@@ -256,7 +257,9 @@ function taskForOther(report) {
 
 /* POST a new maintenance task */
 router.post('/new_maintenance_task', [
-    sanitizeBody('*').trim().escape(),
+    sanitizeBody('*').trim().escape().customSanitizer(val => {
+        return he.decode(val);
+    }),
     body('location', 'You forgot to select a location').exists(),
     function(req, res, next) {
         const errors = validationResult(req);
