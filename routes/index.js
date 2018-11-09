@@ -257,9 +257,6 @@ function taskForOther(report) {
 
 /* POST a new maintenance task */
 router.post('/new_maintenance_task', [
-    sanitizeBody('*').trim().escape().customSanitizer(val => {
-        return he.decode(val);
-    }),
     body('location', 'You forgot to select a location').exists(),
     function(req, res, next) {
         const errors = validationResult(req);
