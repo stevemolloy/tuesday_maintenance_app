@@ -71,7 +71,7 @@ block content
         li
           label Report
             span.required *
-          textarea(name="comment", id="comment").field-long.field-textarea= report.task
+          textarea(name="comment", id="comment").field-long.field-textarea!= report.task
         li
           button Save
     button(onClick="window.location.href='/api/get/"+report._id+"'") Cancel

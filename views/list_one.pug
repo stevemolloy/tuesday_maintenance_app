@@ -16,25 +16,25 @@ block content
             li(onclick="location.href='/api/mark_done/"+report._id+"'") Mark task completed
           li(onclick="if (confirm('Click OK to remove this task')) location.href='/api/archive/"+report._id+"';") Remove task
         h2 Scheduled for week number:
-          b= report.week_number
+          b!= report.week_number
         h3 Task approved?
           if report.approved
             b Yes
           else
             b No
         p Reported by: 
-          b= report.reporter
+          b!= report.reporter
         p Reported: 
-          b= report.datetime
+          b!= report.datetime
         p Affected location(s):
-          b= report.where
+          b!= report.where
         p To be performed by:
-          b= report.fixer
+          b!= report.fixer
         p Start time:
-          b= report.starttime
+          b!= report.starttime
         p End time:
-          b= report.endtime
+          b!= report.endtime
         p Task: 
-          b= report.task
+          b!= report.task
         p Done?: 
-          b= report.done ? 'Yes' : 'No'
+          b!= report.done ? 'Yes' : 'No'
