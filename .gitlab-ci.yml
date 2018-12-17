@@ -12,7 +12,7 @@ build_image:
 deploy_image:
   stage: deploy
   script:
-  - "curl -H 'Authorization: Bearer gOj9o8s3RapHiThfNbImaFYMDoOKTG' -k --request POST https://ansible.maxiv.lu.se/api/v2/job_templates/13/launch/"
+  - 'curl -H "Authorization: Bearer $AWX_TOKEN" -XPOST https://ansible.maxiv.lu.se/api/v2/job_templates/27/launch/'
   only:
     - master
 
