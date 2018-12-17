@@ -27,6 +27,6 @@ build_image_develop:
 deploy_image_develop:
   stage: deploy
   script:
-  - "curl -H 'Authorization: Bearer gOj9o8s3RapHiThfNbImaFYMDoOKTG' -k --request POST https://ansible.maxiv.lu.se/api/v2/job_templates/14/launch/"
+  - 'curl -H "Authorization: Bearer $AWX_TOKEN" -XPOST https://ansible.maxiv.lu.se/api/v2/job_templates/28/launch/'
   only:
     - develop
