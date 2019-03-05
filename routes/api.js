@@ -10,6 +10,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/get/:faultId', function(req, res, next) {
+  res.redirect('/api/get/' + req.params.faultId + '/all');
+})
+
+router.get('/get/:faultId/:selected_week', function(req, res, next) {
   MaintenanceTask
     .findOne({
       '_id': req.params.faultId

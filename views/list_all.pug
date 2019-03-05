@@ -47,7 +47,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in linac_data
-            - var d = "window.location.assign('/api/get/" + linac_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + linac_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell, cellindex in datum
