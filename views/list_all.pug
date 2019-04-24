@@ -47,7 +47,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in linac_data
-            - var d = "window.location.assign('/api/get/" + linac_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + linac_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell, cellindex in datum
@@ -58,7 +58,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in r1_data
-            - var d = "window.location.assign('/api/get/" + r1_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + r1_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell in datum
@@ -69,7 +69,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in r3_data
-            - var d = "window.location.assign('/api/get/" + r3_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + r3_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell in datum
@@ -80,7 +80,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in spf_data
-            - var d = "window.location.assign('/api/get/" + spf_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + spf_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell in datum
@@ -91,7 +91,7 @@ block content
       include table_headings.pug
         tbody
           each datum, index in other_data
-            - var d = "window.location.assign('/api/get/" + other_ids[index] + "');"
+            - var d = "window.location.assign('/api/get/" + other_ids[index] + "/" + selected_week + "');"
             tr(onclick=d)
               td= index+1
               each cell in datum
