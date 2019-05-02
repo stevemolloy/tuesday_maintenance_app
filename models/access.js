@@ -8,6 +8,7 @@ var AccessSchema = new Schema(
     where: {type:String, max: 128},
     starttime: String,
     endtime: String,
+    readyforbeam: String,
     week_number: {type: Number},
   }
 );
