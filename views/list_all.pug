@@ -20,27 +20,30 @@ block content
     if selected_week!="all"
       a(href="/access/edit/" + selected_week, id="centeredlink") Edit access times
       table.faulttable
-          thead
-              tr
-                  th(align="center") Area
-                  th(align="center") Access starts
-                  th(align="center") Access ends
-          tbody
-              each report in reports
-                  tr
-                      td= report.where.toUpperCase()
-                      if !report.starttime && !report.endtime
-                          td(align="center") No access
-                          td(align="center") No access
-                      else if !report.starttime && report.endtime
-                          td(align="center") No access
-                          td(align="center")= report.endtime
-                      else if report.starttime && !report.endtime
-                          td(align="center")= report.starttime
-                          td(align="center") No access
-                      else
-                          td(align="center")= report.starttime
-                          td(align="center")= report.endtime
+        thead
+          tr
+            th(align="center") Area
+            th(align="center") Access starts
+            th(align="center") Access ends
+            th(align="center") Ready for beam
+        tbody
+          each report in reports
+            tr
+              td= report.where.toUpperCase()
+              if report.starttime
+                td(align="center")= report.starttime
+              else
+                td(align="center") No access
+              if report.endtime
+                td(align="center")= report.endtime
+              else
+                td(align="center") No access
+              if report.readyforbeam
+                td(align="center")= report.readyforbeam
+              else if report.endtime
+                td(align="center")= report.endtime
+              else
+                td(align="center") -
 
     div.report_table
       h1 Interventions that require access to Linac, R11, and/or R31

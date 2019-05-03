@@ -96,7 +96,7 @@ router.get('/edit/:week_number', getData('accessedit'));
 router.get('/:week_number', getData('accessview'));
 
 function timeChecker(time) {
-    console.log(!time.match("([01]?[0-9]|2[0-3]):[0-5][0-9]"));
+    // console.log(!time.match("([01]?[0-9]|2[0-3]):[0-5][0-9]"));
     if (time === '') {
         return true;
     } else if (!time.match("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
@@ -110,16 +110,22 @@ router.post('/update/', [
     sanitizeBody('*').trim().escape(),
     body('r11start').optional().custom(timeChecker),
     body('r11end').optional().custom(timeChecker),
+    body('r11beam').optional().custom(timeChecker),
     body('r12start').optional().custom(timeChecker),
     body('r12end').optional().custom(timeChecker),
+    body('r12beam').optional().custom(timeChecker),
     body('r31start').optional().custom(timeChecker),
     body('r31end').optional().custom(timeChecker),
+    body('r31beam').optional().custom(timeChecker),
     body('r3235start').optional().custom(timeChecker),
     body('r3235end').optional().custom(timeChecker),
+    body('r3235beam').optional().custom(timeChecker),
     body('linacstart').optional().custom(timeChecker),
     body('linacend').optional().custom(timeChecker),
+    body('linacbeam').optional().custom(timeChecker),
     body('spfstart').optional().custom(timeChecker),
     body('spfend').optional().custom(timeChecker),
+    body('spfbeam').optional().custom(timeChecker),
     function(req, res, next) {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -130,7 +136,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.linacid,
-                    {'$set': {starttime: req.body.linacstart, endtime: req.body.linacend}})
+                    {'$set': {starttime: req.body.linacstart, endtime: req.body.linacend, readyforbeam: req.body.linacbeam }})
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
@@ -139,7 +145,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.r11id,
-                    {'$set': {starttime: req.body.r11start, endtime: req.body.r11end } })
+                    {'$set': {starttime: req.body.r11start, endtime: req.body.r11end, readyforbeam: req.body.r11beam } })
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
@@ -148,7 +154,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.r12id,
-                    { '$set': { starttime: req.body.r12start, endtime: req.body.r12end } })
+                    { '$set': { starttime: req.body.r12start, endtime: req.body.r12end, readyforbeam: req.body.r12beam } })
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
@@ -157,7 +163,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.r31id,
-                    { '$set': { starttime: req.body.r31start, endtime: req.body.r31end } })
+                    { '$set': { starttime: req.body.r31start, endtime: req.body.r31end, readyforbeam: req.body.r31beam } })
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
@@ -166,7 +172,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.r3235id,
-                    { '$set': { starttime: req.body.r3235start, endtime: req.body.r3235end } })
+                    { '$set': { starttime: req.body.r3235start, endtime: req.body.r3235end, readyforbeam: req.body.r3235beam } })
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
@@ -175,7 +181,7 @@ router.post('/update/', [
         functionStack.push(function(callback) {
             AccessDetails
                 .findByIdAndUpdate(req.body.spfid,
-                    { '$set': { starttime: req.body.spfstart, endtime: req.body.spfend } })
+                    { '$set': { starttime: req.body.spfstart, endtime: req.body.spfend, readyforbeam: req.body.spfbeam } })
                 .exec(function(err, docs) {
                     if (err) throw callback(err);
                     callback(null, null);
