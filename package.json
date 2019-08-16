@@ -1,0 +1,15 @@
+{
+  "name": "tuesday_maintenance_app",
+  "version": "1.0.0",
+  "description": "Organisation and control of the maintenance days",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devstart": "concurrently \"cd backend; npm run dev\" \"cd frontend; npm start\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  }
+}
