@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "devstart": "concurrently \"cd backend; npm run dev\" \"cd frontend; npm start\""
   },
-  "author": "",
+  "repository": {
+      "type": "git",
+      "url": "https://gitlab.maxiv.lu.se/operations/tuesday_maintenance_app"
+    },
+  "author": "Stephen Molloy",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^4.1.1"
