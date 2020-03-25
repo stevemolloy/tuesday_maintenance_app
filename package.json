@@ -14,7 +14,6 @@
   "author": "Stephen Molloy",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^4.1.2",
-    "weeknumber": "^1.1.2"
+    "concurrently": "^4.1.2"
   }
 }
