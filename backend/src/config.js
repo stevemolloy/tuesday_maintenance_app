@@ -38,7 +38,8 @@ const config = {
   test: { },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/backend-dev',
+      uri_old: 'mongodb://localhost/backend-dev',
+      uri: 'mongodb://fixit_list_user:fixit_list_password@ds217970.mlab.com:17970/fixit_list',
       options: {
         debug: true
       }
@@ -48,7 +49,8 @@ const config = {
     ip: process.env.IP || undefined,
     port: process.env.PORT || 8080,
     mongo: {
-      uri: process.env.MONGODB_URI || 'mongodb://localhost/backend'
+      uri_old: process.env.MONGODB_URI || 'mongodb://localhost/backend',
+      uri: process.env.MONGODB_URI || 'mongodb://fixit_list_user:fixit_list_password@ds217970.mlab.com:17970/fixit_list'
     }
   }
 }
